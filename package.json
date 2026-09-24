@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix frontend ci && npm --prefix frontend run build",
+    "build": "npm --prefix frontend ci && npm --prefix frontend run build && rm -rf build && cp -R frontend/build build",
     "start": "npm --prefix frontend start",
     "lint": "npm --prefix frontend run lint",
     "typecheck": "npm --prefix frontend run typecheck"
