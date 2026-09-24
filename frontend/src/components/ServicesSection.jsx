@@ -1,0 +1,16 @@
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowUpRight, Plus } from 'lucide-react';
+import { services } from '../data/services';
+import { Action, Eyebrow, Reveal } from './Primitives';
+
+export const ServicesSection = ({ standalone = false }) => {
+  const [active, setActive] = useState(0);
+  const service = services[active];
+  return <section className={`services-section container ${standalone ? 'standalone-services' : ''}`} id="services" data-testid="services-section">
+    {!standalone && <Reveal className="section-intro"><Eyebrow id="services-label">BUILT WITH APPETISER</Eyebrow><h2 className="section-heading" data-testid="services-heading">We build ours.<br /><span className="muted-text">We can build yours.</span></h2><p data-testid="services-intro">Have an idea of your own? The same product thinking behind our own technology is available to ambitious founders and businesses.</p></Reveal>}
+    <div className="services-layout"><div className="service-rows" role="tablist" aria-label="Our services" aria-orientation="vertical">{services.map((item, i) => <button role="tab" aria-selected={active === i} aria-controls="service-panel" id={`service-tab-${item.id}`} key={item.id} className={`service-row ${active === i ? 'selected' : ''}`} data-testid={`service-${item.id}`} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} onKeyDown={e => { if (['ArrowDown', 'ArrowUp'].includes(e.key)) { e.preventDefault(); const next = (i + (e.key === 'ArrowDown' ? 1 : -1) + services.length) % services.length; document.getElementById(`service-tab-${services[next].id}`)?.focus(); } }}><span className="service-number">0{i + 1}</span><span>{item.name}</span><ArrowUpRight size={21} /></button>)}</div>
+      <div className="service-visual" id="service-panel" role="tabpanel" aria-labelledby={`service-tab-${service.id}`} data-testid="service-detail"><AnimatePresence mode="wait"><motion.div key={active} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .3 }}><div className={`service-sculpture sculpture-${active}`} aria-hidden="true"><div className="sculpture-orbit" /><div className="sculpture-plane plane-one" /><div className="sculpture-plane plane-two" /><div className="sculpture-plane plane-three" /><span className="sculpture-cross"><Plus size={28} /></span></div><div className="service-visual-copy"><span className="small-label">0{active + 1} / WHAT WE DO</span><h3 data-testid="service-detail-heading">{service.headline}</h3><p data-testid="service-detail-description">{service.description}</p><div className="service-tags">{service.deliverables.map((d, i) => <span data-testid={`service-deliverable-${i}`} key={d}>{d}</span>)}</div><Action to={`/contact?interest=${encodeURIComponent(service.id === 'strategy' ? 'Product strategy' : 'Building a new product')}&service=${encodeURIComponent(service.name)}`} variant="text" id="service-enquire">Let’s talk {service.name.toLowerCase()}</Action></div></motion.div></AnimatePresence></div>
+    </div>
+  </section>;
+};

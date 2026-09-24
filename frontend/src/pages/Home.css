@@ -1,0 +1,46 @@
+/* A quieter homepage, with the interactive sculpture as its focal point. */
+.studio-hero{position:relative;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;min-height:850px;padding-top:145px;padding-bottom:100px;gap:12px}
+.studio-hero-copy{position:relative;z-index:2;padding-bottom:35px}
+.studio-hero h1{font-family:var(--heading);font-size:clamp(58px,6.2vw,94px);font-weight:500;line-height:1.08;letter-spacing:-5px;margin:30px 0}
+.studio-heading-line{display:block;color:var(--paper)}
+.studio-heading-line.highlighted{color:transparent;background:linear-gradient(100deg,#8d72ff 0%,#53c8ff 23%,#ff71ce 48%,#edb28b 72%,#8d72ff 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 24px rgba(141,114,255,.16));animation:home-ai-gradient 5s ease-in-out infinite}
+.studio-description{max-width:375px;font-size:16px;line-height:1.85;color:#a1a6a3}
+.studio-actions{display:flex;align-items:center;gap:26px;margin-top:35px;flex-wrap:wrap}
+.studio-actions .action-text{font-size:12px!important;color:#b9bdb9!important}
+.studio-hero-bottom{position:absolute;bottom:34px;left:0;right:0;display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:24px;font-size:9px;letter-spacing:1.6px;color:#8b918d}
+.studio-hero-bottom a{display:flex;align-items:center;gap:14px;letter-spacing:.3px;font-size:11px}
+.hero-scene{position:relative;isolation:isolate;height:550px;min-width:0;border-radius:50% 50% 24px 24px}
+.scene-halo{position:absolute;inset:4% -8%;z-index:-1;background:radial-gradient(ellipse,#edb28b14,transparent 68%);pointer-events:none}
+.scene-fallback{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .8s}
+.fallback-sculpture{position:relative;width:76%;aspect-ratio:1;perspective:800px;transform:rotate(-25deg)}
+.sculpture-ring{position:absolute;inset:4%;border:22px solid #d69c79;border-radius:50%;box-shadow:inset 4px 3px 14px #ffe2c6,5px 15px 28px #0008;transform:rotateY(55deg)}
+.sculpture-ring.ring-b{transform:rotateX(65deg) rotateY(-20deg);border-color:#7f8b87}
+.sculpture-sphere{position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle at 32% 25%,#ffe6c9,#edb28b 25%,#8c492b 65%,#321d14);box-shadow:0 0 65px #edb28b22,12px 18px 30px #0009}
+.scene-orbit{position:absolute;inset:12%;border:1px solid #edb28b26;border-radius:50%;transform:rotate(-30deg);animation:studio-orbit 18s linear infinite}
+.scene-orbit span{position:absolute;top:14%;left:14%;width:8px;height:8px;border-radius:50%;background:var(--copper);box-shadow:0 0 24px #edb28b}
+.spline-canvas{position:absolute;inset:0 0 42px;opacity:0;transition:opacity .8s;overflow:visible;background:transparent}
+.spline-canvas canvas{background:transparent!important}
+.hero-model-viewer model-viewer{display:block;width:100%;height:100%;background:transparent;--poster-color:transparent;outline:0}
+.scene-ready .spline-canvas{opacity:1}
+.scene-ready .scene-fallback{opacity:0;pointer-events:none}
+.scene-caption{position:absolute;bottom:8px;left:20px;right:20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.scene-caption>span{display:flex;align-items:center;gap:8px;font-size:8px;letter-spacing:1.4px;color:#909991}
+.scene-caption i{width:4px;height:4px;border-radius:50%;background:var(--copper)}
+.scene-caption button{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:#101212;color:#ccc}
+.scene-caption button:hover{border-color:var(--copper);color:var(--copper)}
+.home-refresh .our-products{padding-top:76px}
+.home-refresh .products-intro{margin-bottom:38px}
+.home-refresh .services-section{padding-block:100px}
+.home-refresh .process-section{padding-block:80px}
+.home-refresh .final-cta{padding-block:100px}
+@keyframes studio-orbit{to{transform:rotate(330deg)}}
+@keyframes home-ai-gradient{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+@media(min-width:1500px){.studio-hero{min-height:900px}}
+@media(max-width:1000px){.studio-hero{min-height:740px;padding-top:135px;grid-template-columns:1.15fr 1fr}.studio-hero h1{font-size:64px;letter-spacing:-3.5px}.hero-scene{height:440px}.studio-actions{gap:16px}}
+@media(max-width:760px){.studio-hero{grid-template-columns:1fr;padding-top:125px;padding-bottom:100px;gap:0;min-height:auto}.studio-hero-copy{padding:0}.studio-hero h1{font-size:clamp(52px,10vw,76px);letter-spacing:-3px;margin:24px 0}.studio-hero .eyebrow{font-size:8px;letter-spacing:1.3px}.studio-description{font-size:14px;max-width:380px}.studio-actions{margin-top:26px}.hero-scene{height:390px;margin-top:15px}.studio-hero-bottom{bottom:20px;font-size:7px;letter-spacing:.8px}.studio-hero-bottom a{font-size:9px}.home-refresh .our-products{padding-top:44px}.home-refresh .services-section,.home-refresh .process-section{padding-block:64px}.home-refresh .final-cta{padding-block:76px}}
+@media(max-width:380px){.studio-actions{gap:20px}.studio-hero h1{font-size:48px}.hero-scene{height:330px}.studio-hero-bottom>span{max-width:130px;line-height:1.8}}
+@media(prefers-reduced-motion:reduce){.studio-heading-line.highlighted{animation:none;background-position:50% 50%}}
+
+.studio-actions .action-text{color:#eef0ec!important;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.035))!important;border:1px solid rgba(255,255,255,.2)!important;padding:0 19px!important;height:44px!important;border-radius:999px!important;-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 10px 30px rgba(0,0,0,.16)!important}
+.studio-actions .action-text:hover{background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.065))!important;border-color:rgba(255,255,255,.34)!important}
+.scene-caption button{background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.035));-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 28px rgba(0,0,0,.18)}

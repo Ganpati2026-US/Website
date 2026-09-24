@@ -1,0 +1,22 @@
+{
+  "summary": "Frontend-only iteration 3 verified /careers listing, department tabs (Tech default active with count 03, Business 02, Creative 01, total 06), tab filtering, role detail pages, mailto Apply, related roles, NotFound for unknown id, role-back link, nav wordmark and mobile layout. All expected assertions pass with no console/page errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Careers.jsx and RoleDetail.jsx are dense single-line JSX (hard to review/diff); consider standard multi-line formatting.",
+    "Related roles heading uses department name only; if a department grows large, all peers are rendered without limit — consider capping to 2-3."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Careers listing + tabs (Tech/Business/Creative) verified with counts 03/02/01 (total 06). All 6 job rows are Links to /careers/:id and render RoleDetail. Web Developer Intern detail has 4 responsibilities, 4 learn items, 3 lookingFor items; Apply mailto is appetiserindia@gmail.com with subject containing the role. related-* links only show for peer roles in the same department (Creative has none so the section is absent). role-back href=/careers#opportunities works. NotFound renders for unknown ids. Mobile 390x844 has no horizontal overflow on /careers or /careers/sales-intern; tabs fit on a single row (no wrap needed at 390). Nav wordmark data-testid='nav-wordmark' contains 'Appetiser' with 'INDIA' beneath (each letter in own span so inner_text has newlines — cosmetic only).",
+  "rca of the issue": "N/A — no issues found in scope"
+}

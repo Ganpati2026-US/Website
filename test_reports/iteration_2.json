@@ -1,0 +1,26 @@
+{
+  "summary": "Iteration 2: Verified new security headers middleware + per-IP rate limit fixes. Backend: 13/13 pytest tests pass (9 existing regression + 4 new). New tests validate GET /api/health returns security headers (X-Content-Type-Options nosniff, X-Frame-Options DENY, Referrer-Policy, Strict-Transport-Security, Permissions-Policy, CSP default-src 'none'; frame-ancestors 'none'); enquiries responses carry the same headers; POST /api/enquiries persists 64-hex sha256 ip_hash with NO raw ip / x_forwarded_for / client_ip / remote_addr field in the mongo doc; per-IP limit fires on 11th request from same spoofed XFF (10 unique emails all 201, 11th returns 429 with 'connection' in detail); a fresh XFF still succeeds after another IP is throttled (independent buckets). Per-email limit (6th same email -> 429) and idempotency/honeypot/consent/idea validation regressions still pass. Frontend regression: home core-video and careers builder-video both auto-playing (paused===false); /contact happy path submission still shows contact-success + contact-receipt (REFERENCE / <id>).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_security_and_iprate.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "server.py client_ip_hash: uses X-Forwarded-For's first entry — correct for edge/proxy setup. Note: on the public preview URL the ingress rewrites XFF to the caller's edge IP so all callers behind the same edge share a bucket. This is acceptable for anti-flood but worth documenting.",
+    "SECURITY_HEADERS uses setdefault which lets downstream responses override — fine, but consider always setting to guarantee policy.",
+    "created_at is still stored/compared as ISO string (carried over from iter1); acceptable for hour-window queries but native BSON datetime is preferable.",
+    "CORS_ORIGINS='*' with allow_credentials=False is safe; keep as-is.",
+    "Consider adding a Retry-After header to 429 responses for better client UX."
+  ],
+  "updated_files": ["/app/backend/tests/test_security_and_iprate.py (new)"],
+  "success_rate": {"backend": "100% (13/13)", "frontend": "100%"},
+  "test_credentials": "N/A — public site",
+  "seed_data_creation": "Created ~22 enquiry docs (iter2_*@example.com + spoofed ip_hash 198.51.100.x / 203.0.113.x / 192.0.2.x). Autouse module fixture deletes iter2_* on teardown; the 203.0.113.x throttled bucket is left intentionally (deleted by test itself at setup on next run).",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Use localhost:8001 with a spoofed X-Forwarded-For to control ip_hash bucket — hitting the public preview URL routes through ingress which rewrites XFF to the tester's edge IP. New tests live in /app/backend/tests/test_security_and_iprate.py and cover all headers + per-IP flood control. Test file cleans iter2_* docs on module teardown.",
+  "rca of the issue": "N/A — all fixes verified working."
+}
