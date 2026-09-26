@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#070909" />
         <meta name="description" content="Appetiser India is a product company and digital product partner. Explore BitByte Restro and build what’s next." />
-        <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg?v=white-a" />
+        <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg?v=white-ai" />
         <meta property="og:title" content="Appetiser India — Ideas deserve exceptional products." />
         <meta property="og:description" content="Strategy, design and engineering for businesses and founders building what’s next." />
         <meta property="og:type" content="website" />
@@ -24,6 +24,19 @@
         work correctly both with client-side routing and a non-root public URL.
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
+        <style>html[data-launch-pending]{background:#070909}html[data-launch-pending] #root{visibility:hidden}</style>
+        <script>
+          (function () {
+            try {
+              var home = location.pathname === '/' || location.pathname === '/home';
+              var replay = new URLSearchParams(location.search).get('intro');
+              if (home && replay !== 'skip' && !matchMedia('(prefers-reduced-motion: reduce)').matches && (replay === 'replay' || !sessionStorage.getItem('appetiser.launch.v1'))) {
+                document.documentElement.dataset.launchPending = 'true';
+                window.__appetiserLaunchGuard = setTimeout(function () { delete document.documentElement.dataset.launchPending; }, 5000);
+              }
+            } catch (_) { /* The website remains accessible if session storage is unavailable. */ }
+          })();
+        </script>
         <title>Appetiser India — Ideas deserve exceptional products.</title>
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>

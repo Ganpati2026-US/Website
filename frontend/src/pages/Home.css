@@ -53,3 +53,11 @@
 }
 
 .scene-lightweight .spline-canvas{visibility:hidden}
+
+/* Stack the hero before the text and scene become cramped on tablets. */
+@media(min-width:761px) and (max-width:900px){
+  .studio-hero{grid-template-columns:1fr;min-height:0;padding-top:145px;padding-bottom:105px;gap:12px}
+  .studio-hero-copy{padding-bottom:0}
+  .studio-hero h1{font-size:clamp(56px,8vw,72px)}
+  .hero-scene{height:420px}
+}

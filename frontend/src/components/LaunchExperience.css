@@ -1,0 +1,35 @@
+/* Reserve the scrollbar space while the intro temporarily locks scrolling. */
+html{scrollbar-gutter:stable}
+
+/* One fixed wordmark travels from the cinematic canvas into the real header. */
+.launch-experience{position:fixed;inset:0;z-index:100;background:transparent;isolation:isolate;overflow:hidden;color:var(--paper)}
+.launch-backdrop{position:absolute;inset:0;background:var(--ink);overflow:hidden}
+.launch-ambient{position:absolute;inset:-35%;pointer-events:none;opacity:.5}
+.ambient-purple{background:radial-gradient(ellipse at 33% 43%,color-mix(in srgb,var(--purple) 13%,transparent),transparent 42%)}
+.ambient-copper{background:radial-gradient(ellipse at 70% 57%,color-mix(in srgb,var(--copper) 8%,transparent),transparent 35%)}
+.ambient-green{background:radial-gradient(ellipse at 26% 70%,color-mix(in srgb,var(--grey) 5%,transparent),transparent 30%);opacity:0;transition:opacity .8s}
+.launch-phase-brand .ambient-green{opacity:.5}
+.launch-art{position:absolute;inset:0;pointer-events:none}
+.launch-nodes{position:absolute;top:46%;left:50%;width:0;height:0}
+.launch-node,.launch-spark{position:absolute;display:block;border-radius:50%;background:var(--paper)}
+.launch-node.node-1{background:var(--copper)}
+.launch-node.node-2{background:var(--purple)}
+.launch-spark{width:4px;height:4px;top:-76px;left:-2px;background:var(--copper);box-shadow:0 0 12px var(--copper),0 0 32px color-mix(in srgb,var(--copper) 20%,transparent)}
+.launch-idea{position:absolute;inset:calc(46% - 36px) 24px auto;margin:0;text-align:center;font-family:var(--heading);font-size:clamp(28px,4vw,56px);font-weight:450;line-height:1.25;letter-spacing:-1.8px}
+.launch-logo{position:absolute;top:0;left:0;width:max-content;transform-origin:0 0}
+.launch-logo .brand-country{color:var(--paper);opacity:.65;transition:opacity .2s}
+.launch-phase-handoff .launch-logo .brand-country{opacity:0}
+.launch-tagline{position:absolute;left:24px;right:24px;margin:0;text-align:center;font-size:clamp(13px,1.25vw,17px);letter-spacing:.15px;color:var(--grey)}
+.launch-skip{position:absolute;right:max(24px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:14px;padding:12px;background:transparent;border:0;color:var(--grey);font-size:11px;letter-spacing:.4px;transition:color .2s}
+.launch-skip:hover,.launch-skip:focus-visible{color:var(--paper)}
+.launch-active .navigation{opacity:0;transition:opacity .45s}
+.launch-active.launch-revealing .navigation{opacity:1}
+.launch-active .navigation [data-testid="nav-wordmark"]{visibility:hidden}
+.launch-active .skip-link{visibility:hidden}
+.launch-compact .launch-idea{font-size:clamp(25px,5.8vw,42px);letter-spacing:-1px;inset:calc(46% - 26px) 20px auto}
+.launch-compact .launch-spark{top:-60px;box-shadow:0 0 16px color-mix(in srgb,var(--copper) 45%,transparent)}
+.launch-compact .launch-node{box-shadow:none}
+@media(prefers-reduced-motion:reduce){.launch-experience{display:none}}
+/* Keep the opening darkness unadorned; keyboard access remains immediate. */
+.launch-phase-dark .launch-skip{opacity:0;pointer-events:none}
+.launch-phase-dark .launch-skip:focus-visible{opacity:1;pointer-events:auto}

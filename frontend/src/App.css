@@ -273,3 +273,85 @@ body{
   :root .ai-gradient-text{animation:none;background-position:50% 50%}
   .wordmark-name>span{will-change:auto}
 }
+
+/* Align shared page edges, profile columns, and card actions. */
+.nav-inner{max-width:1280px}
+.director-profile-grid>*,.contact-page>*,.footer-top>*,.process-grid>*{min-width:0}
+.director-copy{padding-top:0}
+.director-copy h2{margin:20px 0 24px}
+.director-copy .director-intro{font-size:clamp(16px,1.25vw,18px);line-height:1.8}
+.director-portrait>img{object-position:60% top}
+.duality-columns>div{display:flex;flex-direction:column;align-items:flex-start}
+.duality-columns>div>p{margin-bottom:25px}
+.duality-columns>div>.action{margin-top:auto}
+.footer-bottom{gap:16px;flex-wrap:wrap}
+
+@media(min-width:768px) and (max-width:1024px){
+  .process-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  .duality-columns{gap:32px}
+  .director-profile-grid{gap:32px}
+}
+@media(min-width:768px) and (max-width:900px){
+  .desktop-nav{display:none}
+  .menu-toggle{display:flex;align-items:center;justify-content:center}
+  .mobile-menu{display:flex;flex-direction:column;padding:12px 36px 22px;gap:7px;background:#080a0af2}
+  .mobile-menu>a{display:flex;align-items:center;gap:20px;padding:15px 14px;border:1px solid transparent;border-radius:16px;font-size:20px}
+  .mobile-menu>a>span{font-size:10px;color:var(--grey)}
+  .mobile-menu>a>svg{margin-left:auto;width:20px}
+  .mobile-menu>a.active{color:#fff;background:#ffffff12;border-color:#ffffff20}
+  .director-profile-grid{grid-template-columns:1fr;gap:32px}
+  .director-portrait{min-height:0;height:480px}
+  .contact-page{grid-template-columns:1fr;gap:40px;padding-top:145px}
+  .contact-intro{position:static}
+  .contact-asterisk{display:none}
+  .contact-intro .display-heading{font-size:clamp(48px,7vw,64px)}
+}
+@media(max-width:767px){
+  .director-copy h2{margin:18px 0 22px}
+  .director-profile-grid{gap:24px}
+}
+
+/* Cool, static highlight keeps the service headline crisp on every screen. */
+.services-gradient-text{
+  color:#a9b9ff;
+  background:linear-gradient(105deg,#ad8bff 0%,#73c9ff 48%,#a6f0e7 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Keep the gold surface continuous through hover and press. */
+.action-primary,.action-primary:hover,.action-primary:active{
+  background:linear-gradient(135deg,rgba(255,206,172,.95),rgba(237,178,139,.72))!important;
+  -webkit-tap-highlight-color:transparent;
+}
+.action-primary::before{opacity:.55;transition:opacity .25s ease}
+.action-primary:hover::before{opacity:1}
+.action-primary:active::before{opacity:.8}
+.action-primary:hover{transform:translateY(-1px)}
+.action-primary:active{transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){
+  .action-primary::before{transition:none}
+  .action-primary:hover,.action-primary:active{transform:none}
+}
+
+/* Keep every desktop navigation target evenly sized and grouped together. */
+@media(min-width:901px){
+  .desktop-nav{
+    gap:4px;
+    margin-left:auto;
+    margin-right:4px;
+  }
+  .desktop-nav>a,
+  .nav-right .action-nav{
+    width:106px;
+    min-width:106px;
+    justify-content:center;
+    text-align:center;
+  }
+  .desktop-nav>a{padding-inline:10px}
+  .nav-right{gap:4px}
+  .nav-right .action-nav{
+    padding-inline:12px!important;
+    gap:8px!important;
+  }
+}

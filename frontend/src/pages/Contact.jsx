@@ -10,6 +10,7 @@ import { Button } from '../components/ui/button';
 import { site } from '../config/site';
 
 const apiOrigin = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/+$/, '');
+const contactEndpoint = (process.env.REACT_APP_CONTACT_ENDPOINT || '').trim();
 
 const interests = ['Building a new product', 'Improving an existing product', 'BitByte Restro', 'Product strategy', 'Other'];
 const budgets = ['Not sure yet', 'Under ₹5 lakh', '₹5–15 lakh', '₹15–30 lakh', '₹30 lakh+'];
@@ -29,8 +30,16 @@ export default function Contact() {
     if (!form.consent) next.consent = 'Please agree so we can respond to your enquiry.';
     setErrors(next); if (Object.keys(next).length) { document.getElementById(`contact-${Object.keys(next)[0]}`)?.focus(); return; }
     setBusy(true); setServerError('');
-    try { const response = await axios.post(`${apiOrigin}/api/enquiries`, { ...form, request_id: requestId.current }, { timeout: 15000 }); setReceipt(response.data); toast.success('Your idea is in good hands. Enquiry received.'); }
-    catch (error) { const detail = error.response?.data?.detail; const message = typeof detail === 'string' ? detail : 'We couldn’t send your enquiry. Please try again, or email us directly.'; setServerError(message); toast.error(message); }
+    try {
+      const payload = { ...form, request_id: requestId.current };
+      const response = contactEndpoint
+        ? await axios.post(contactEndpoint, JSON.stringify(payload), { headers: { 'Content-Type': 'text/plain;charset=utf-8' }, timeout: 15000 })
+        : await axios.post(`${apiOrigin}/api/enquiries`, payload, { timeout: 15000 });
+      const result = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+      if (result.error) throw new Error(result.error);
+      setReceipt(result); toast.success('Your idea is in good hands. Enquiry received.');
+    }
+    catch (error) { const detail = error.response?.data?.detail; const message = typeof detail === 'string' ? detail : error.message && error.message !== 'Network Error' ? error.message : 'We couldn’t send your enquiry. Please try again, or email us directly.'; setServerError(message); toast.error(message); }
     finally { setBusy(false); }
   };
   const fieldError = key => errors[key] && <span className="field-error" data-testid={`error-${key}`} id={`error-${key}`} role="alert">{errors[key]}</span>;
