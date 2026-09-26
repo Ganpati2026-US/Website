@@ -1,4 +1,5 @@
-import { Component, lazy, Suspense, useState } from 'react';
+import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useInView, useReducedMotion } from 'framer-motion';
 import { RotateCcw } from 'lucide-react';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -12,9 +13,25 @@ class SceneBoundary extends Component {
 }
 
 export function HeroScene() {
+  const sceneRef = useRef(null);
+  const applicationRef = useRef(null);
+  const inView = useInView(sceneRef, { margin: '100px' });
+  const reduced = useReducedMotion();
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
+    const app = applicationRef.current;
+    if (!app || !ready) return;
+    const update = () => {
+      if (inView && !document.hidden && !reduced) app.play();
+      else app.stop();
+    };
+    update();
+    document.addEventListener('visibilitychange', update);
+    return () => document.removeEventListener('visibilitychange', update);
+  }, [inView, ready, reduced]);
 
   const retry = () => {
     setFailed(false);
@@ -22,7 +39,7 @@ export function HeroScene() {
     setAttempt(value => value + 1);
   };
 
-  return <div className={`hero-scene ${ready ? 'scene-ready' : ''}`} data-testid="hero-scene">
+  return <div ref={sceneRef} className={`hero-scene ${ready ? 'scene-ready' : ''}`} data-testid="hero-scene">
     <div className="scene-halo" aria-hidden="true" />
     {(!ready || failed) && <div className="scene-fallback" aria-hidden="true">
       <div className="fallback-sculpture"><span className="sculpture-ring ring-a" /><span className="sculpture-ring ring-b" /><span className="sculpture-sphere" /></div>
@@ -31,7 +48,7 @@ export function HeroScene() {
     {!failed && <div className="spline-canvas" role="img" aria-label="Interactive 3D scene. Drag to explore." data-testid="spline-scene">
       <SceneBoundary key={attempt} onFailure={() => setFailed(true)}>
         <Suspense fallback={null}>
-          <Spline scene={SCENE_URL} onLoad={() => setReady(true)} />
+          <Spline scene={SCENE_URL} onLoad={app => { applicationRef.current = app; setReady(true); }} />
         </Suspense>
       </SceneBoundary>
     </div>}
