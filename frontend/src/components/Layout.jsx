@@ -12,7 +12,7 @@ export const Navigation = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useLayoutEffect(() => { setOpen(false); }, [pathname]);
   useEffect(() => { let previous; const update = () => { const next = window.scrollY > 24; if (next !== previous) { previous = next; setScrolled(next); } }; update(); window.addEventListener('scroll', update, { passive: true }); return () => window.removeEventListener('scroll', update); }, []);
   useEffect(() => { if (!open) return; const close = e => { if (e.key === 'Escape') setOpen(false); }; window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close); }, [open]);
   return <nav className={`navigation ${scrolled ? 'nav-scrolled' : ''}`} aria-label="Main navigation" data-testid="main-navigation">

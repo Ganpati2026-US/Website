@@ -13,14 +13,17 @@ const DirectorProfile = () => <section className="director-profile container" da
     <div className="director-copy">
       <Eyebrow id="director-label">MANAGING DIRECTOR &amp; FOUNDER</Eyebrow>
       <h2>Mr. Vedang Kulkarni</h2>
-      <p className="director-intro">A 22-year-old entrepreneur and technologist, Vedang Kulkarni represents a new generation of founders building at the intersection of technology, creativity and business.</p>
-      <p>As an Apple Developer, his interests span software engineering, product development and emerging technologies. A first-generation entrepreneur, Vedang brings a hands-on approach to building—taking ideas from early concepts to products designed for real-world use.</p>
+      <p className="director-intro"><strong>A 22-year-old entrepreneur and Apple Developer, Vedang Kulkarni builds technology with a focus on thoughtful products, strong engineering and real-world usefulness.</strong></p>
+      <p>His journey into technology began with a fascination for Apple—particularly how its hardware, software and design work together. Today, as a first-generation entrepreneur, he brings that same attention to detail to building products of his own.</p>
       <details className="director-more">
         <summary><span className="more-label">Read more</span><span className="less-label">Read less</span></summary>
         <div>
-          <p>Vedang’s entrepreneurial journey began with a simple fascination: understanding how technology works and how it can be used to create something genuinely useful. What started as curiosity gradually evolved into an ambition to build products, solve problems and ultimately create a technology company of his own.</p>
-          <p>His approach to entrepreneurship is rooted in experimentation. He believes in learning by building—developing, testing, refining and continuously challenging what a product can become. His technical background allows him to remain closely involved with the engineering and product decisions behind the company while simultaneously shaping its broader business direction.</p>
-          <p>Looking ahead, Vedang’s ambition is to build technology from India for a global audience. His vision is not limited to growing a single company, but to create products with lasting relevance, explore emerging technologies and contribute to a new generation of globally ambitious technology businesses.</p>
+          <p>Vedang’s interest in building started long before the idea of starting a company. He was fascinated by Apple products and wanted to understand what made their software and user experience feel different.</p>
+          <p>During his sophomore year, that curiosity became more serious. He began developing for Apple platforms, learning the technology by actually building and shipping products. His work has since included apps such as <strong>Revu+</strong> and <strong>LedgerOne</strong>, giving him experience taking ideas from early concepts to software used in the real world.</p>
+          <p>Building those products also changed the way he thought about technology. The challenge was no longer simply writing good software—it was understanding what should be built, why someone would use it, and how technology, design and business come together to create a product people value.</p>
+          <p>That experience eventually led Vedang toward entrepreneurship. As a first-generation founder, he remains closely involved in product and engineering while also shaping the direction of the company.</p>
+          <p>His ambition now extends beyond individual apps. Vedang wants to contribute to a stronger Apple development ecosystem in Central India while building technology in India for a global audience.</p>
+          <p><strong>For him, the goal is simple: keep building, keep learning, and create products worth using.</strong></p>
         </div>
       </details>
     </div>
