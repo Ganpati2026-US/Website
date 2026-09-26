@@ -10,7 +10,7 @@ import { Button } from '../components/ui/button';
 import { site } from '../config/site';
 
 const apiOrigin = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/+$/, '');
-const contactEndpoint = (process.env.REACT_APP_CONTACT_ENDPOINT || '').trim();
+const contactEndpoint = (process.env.REACT_APP_CONTACT_ENDPOINT || site.contactEndpoint || '').trim();
 
 const interests = ['Building a new product', 'Improving an existing product', 'BitByte Restro', 'Product strategy', 'Other'];
 const budgets = ['Not sure yet', 'Under ₹5 lakh', '₹5–15 lakh', '₹15–30 lakh', '₹30 lakh+'];
