@@ -3,7 +3,6 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, ArrowUp } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
-import 'lenis/dist/lenis.css';
 import { Action, Wordmark } from './Primitives';
 import { site } from '../config/site';
 
@@ -32,8 +31,15 @@ export const ScrollManager = () => {
   const reduced = useReducedMotion();
   useEffect(() => {
     if (reduced) return;
-    const lenis = new Lenis({ autoRaf: true, duration: .9, smoothWheel: true, anchors: { offset: -100 } });
-    return () => lenis.destroy();
+    const touch = window.matchMedia('(pointer: coarse)');
+    let lenis;
+    const update = () => {
+      lenis?.destroy();
+      lenis = touch.matches ? null : new Lenis({ autoRaf: true, duration: .75, smoothWheel: true, anchors: { offset: -100 } });
+    };
+    update();
+    touch.addEventListener('change', update);
+    return () => { touch.removeEventListener('change', update); lenis?.destroy(); };
   }, [reduced]);
   useLayoutEffect(() => {
     if (hash) { const timer = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: reduced ? 'instant' : 'smooth' }), 100); return () => clearTimeout(timer); }

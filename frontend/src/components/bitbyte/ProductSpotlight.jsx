@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useInView, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, QrCode, Utensils, Check } from 'lucide-react';
 import { products } from '../../data/products';
@@ -21,18 +22,24 @@ const customers = [
 ];
 
 const CustomerCarousel = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref);
+  const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
   useEffect(() => {
-    const timer = setInterval(() => setActive(value => (value + 1) % customers.length), 5000);
+    if (!inView || reduced) return;
+    const timer = setInterval(() => {
+      if (!document.hidden) setActive(value => (value + 1) % customers.length);
+    }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [inView, reduced]);
   const move = direction => setActive(value => (value + direction + customers.length) % customers.length);
   return <Reveal className="customer-showcase" data-testid="customer-carousel">
     <div className="customer-showcase-head">
       <div><Eyebrow id="customers-label">OUR CUSTOMERS</Eyebrow><h2>Trusted at the tables<br />that matter.</h2></div>
       <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button><span>0{active + 1} / 0{customers.length}</span><button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
     </div>
-    <div className="customer-viewport">
+    <div ref={ref} className="customer-viewport">
       <div className="customer-track" style={{ transform: `translateX(-${active * 100}%)` }}>
         {customers.map(customer => <article className="customer-card" key={customer.name}>
           <div className="customer-image"><img src={customer.image} alt={`${customer.name} logo`} loading="lazy" style={{ objectFit: customer.fit }} /></div>

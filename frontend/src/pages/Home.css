@@ -44,3 +44,12 @@
 .studio-actions .action-text{color:#eef0ec!important;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.035))!important;border:1px solid rgba(255,255,255,.2)!important;padding:0 19px!important;height:44px!important;border-radius:999px!important;-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 10px 30px rgba(0,0,0,.16)!important}
 .studio-actions .action-text:hover{background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.065))!important;border-color:rgba(255,255,255,.34)!important}
 .scene-caption button{background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.035));-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 28px rgba(0,0,0,.18)}
+
+.scene-caption .scene-explore{width:auto;height:36px;padding:0 14px;border-radius:999px;font-size:12px;letter-spacing:0;white-space:nowrap}
+.scene-lightweight .scene-fallback{opacity:1}
+@media(max-width:1024px),(pointer:coarse){
+  .studio-heading-line.highlighted{animation:none;background-position:50% 50%;filter:none}
+  .scene-caption button{-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+
+.scene-lightweight .spline-canvas{visibility:hidden}

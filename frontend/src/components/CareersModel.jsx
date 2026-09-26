@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { useInView, useReducedMotion } from 'framer-motion';
 import { Pause, Play } from 'lucide-react';
 import { site } from '../config/site';
 import './CareersModel.css';
 
 export function CareersModel() {
+  const container = useRef(null);
+  const inView = useInView(container, { margin: '100px' });
   const viewer = useRef(null);
   const reduced = useReducedMotion();
   const [registered, setRegistered] = useState(false);
@@ -35,10 +37,15 @@ export function CareersModel() {
   }, [registered]);
 
   useEffect(() => {
-    if (viewer.current) viewer.current.autoRotate = reduced === false && !paused;
-  }, [registered, reduced, paused]);
+    const update = () => {
+      if (viewer.current) viewer.current.autoRotate = inView && !document.hidden && reduced === false && !paused;
+    };
+    update();
+    document.addEventListener('visibilitychange', update);
+    return () => document.removeEventListener('visibilitychange', update);
+  }, [registered, reduced, paused, inView]);
 
-  return <div className="careers-model" data-testid="careers-model">
+  return <div ref={container} className="careers-model" data-testid="careers-model">
     {(!loaded || failed) && <div className="careers-model-placeholder">
       <img src={site.builderVideo.poster} alt="Sculptural metallic forms" />
       <span role="status">{failed ? 'Great things are built together.' : 'Bringing a new perspective to life…'}</span>
@@ -57,7 +64,7 @@ export function CareersModel() {
       rotation-per-second="12deg"
       auto-rotate-delay="1200"
       interaction-prompt="none"
-      loading="eager"
+      loading="lazy"
       reveal="auto"
     />}
     <div className="careers-model-caption"><span>BUILD SOMETHING EXTRAORDINARY.</span>

@@ -7,8 +7,8 @@ import { testimonials } from '../data/testimonials';
 
 const DirectorProfile = () => <section className="director-profile container" data-testid="director-profile">
   <Reveal className="director-profile-grid">
-    <div className="director-portrait" role="img" aria-label="Portrait placeholder for Vedang Kulkarni">
-      <span>VK</span><small>PORTRAIT</small>
+    <div className="director-portrait">
+      <img src="/assets/team/vedang-kulkarni.png" alt="Mr. Vedang Kulkarni, Managing Director and Founder" width="1254" height="1254" loading="lazy" decoding="async" />
     </div>
     <div className="director-copy">
       <Eyebrow id="director-label">MANAGING DIRECTOR &amp; FOUNDER</Eyebrow>
