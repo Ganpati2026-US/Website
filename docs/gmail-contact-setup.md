@@ -8,7 +8,8 @@ Script. Gmail credentials are never stored in the website.
 
 1. Sign in to the Google account that owns the Apps Script. In Gmail, open
    **Settings → See all settings → Accounts and Import → Send mail as**, then
-   add and verify `contact@appetiserindia.com` with **Treat as an alias** enabled.
+   add and verify both `contact@appetiserindia.com` and
+   `recruiter@appetiserindia.com` with **Treat as an alias** enabled.
 2. Open [script.google.com](https://script.google.com/).
 3. Create a **New project** named `Appetiser India enquiries`.
 4. Replace the contents of `Code.gs` with
@@ -39,3 +40,9 @@ daily email quota. Every outgoing message uses `contact@appetiserindia.com` for
 both **From** and **Reply-To**. The script checks that this address is a verified
 Gmail sender alias and stops with an error if it is unavailable, so it cannot
 silently send from the personal Gmail address.
+
+Career applications use the same endpoint with a `type: "career"` payload.
+Candidate details and their secure Google Drive or iCloud résumé link are sent
+to `recruiter@appetiserindia.com`. The candidate receives a branded confirmation
+from the same address. Ensure shared résumé documents allow viewing by anyone
+with the link; the website does not copy or publicly expose those documents.

@@ -1,5 +1,6 @@
 const COMPANY_NAME = 'Appetiser India';
 const COMPANY_EMAIL = 'contact@appetiserindia.com';
+const RECRUITMENT_EMAIL = 'recruiter@appetiserindia.com';
 const WORDMARK_URL = 'https://appetiserindia.appetiserindia.workers.dev/assets/brand/appetiser-india-email-wordmark.png';
 const ALLOWED_INTERESTS = [
   'Building a new product',
@@ -18,29 +19,69 @@ function doPost(event) {
     const payload = JSON.parse(event.postData.contents || '{}');
     if (payload.website) return jsonResponse({ error: 'Unable to submit this enquiry.' });
 
-    const enquiry = validateEnquiry(payload);
+    const isCareer = payload.type === 'career';
+    const submission = isCareer ? validateCareerApplication(payload) : validateEnquiry(payload);
     const cache = CacheService.getScriptCache();
-    const duplicateKey = `request:${enquiry.request_id}`;
+    const duplicateKey = `request:${submission.request_id}`;
     const existingReference = cache.get(duplicateKey);
     if (existingReference) {
       return jsonResponse({ id: existingReference, message: 'Your enquiry has been received.' });
     }
 
-    const rateKey = `email:${digest(enquiry.work_email)}`;
+    const submissionEmail = isCareer ? submission.email : submission.work_email;
+    const rateKey = `${isCareer ? 'career' : 'email'}:${digest(submissionEmail)}`;
     const submissionCount = Number(cache.get(rateKey) || 0);
     if (submissionCount >= 5) throw new Error('You’ve sent a few enquiries recently. Please try again in an hour.');
 
     const reference = Utilities.getUuid();
     const wordmark = fetchWordmark();
-    sendCompanyNotification(enquiry, reference, wordmark);
-    sendVisitorAcknowledgement(enquiry, reference, wordmark);
+    if (isCareer) {
+      sendRecruiterNotification(submission, reference, wordmark);
+      sendCandidateAcknowledgement(submission, reference, wordmark);
+    } else {
+      sendCompanyNotification(submission, reference, wordmark);
+      sendVisitorAcknowledgement(submission, reference, wordmark);
+    }
     cache.put(duplicateKey, reference, 21600);
     cache.put(rateKey, String(submissionCount + 1), 3600);
 
-    return jsonResponse({ id: reference, message: 'Your enquiry has been received.' });
+    return jsonResponse({ id: reference, message: isCareer ? 'Your application has been received.' : 'Your enquiry has been received.' });
   } catch (error) {
     return jsonResponse({ error: error.message || 'We couldn’t send your enquiry right now.' });
   }
+}
+
+function validateCareerApplication(payload) {
+  const application = {
+    request_id: String(payload.request_id || '').trim(),
+    name: String(payload.name || '').trim(),
+    email: String(payload.email || '').trim().toLowerCase(),
+    phone: String(payload.phone || '').trim(),
+    location: String(payload.location || '').trim(),
+    dob: String(payload.dob || '').trim(),
+    role: String(payload.role || '').trim(),
+    experience: String(payload.experience || '').trim(),
+    portfolio_url: String(payload.portfolio_url || '').trim(),
+    resume_url: String(payload.resume_url || '').trim(),
+    message: String(payload.message || '').trim(),
+    consent: payload.consent === true,
+  };
+  if (!application.request_id || application.request_id.length > 80) throw new Error('Invalid application reference.');
+  if (application.name.length < 2 || application.name.length > 100) throw new Error('Please enter your full name.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(application.email)) throw new Error('Please enter a valid email address.');
+  if (application.phone.length < 7 || application.phone.length > 40) throw new Error('Please enter a valid phone number.');
+  if (application.location.length < 2 || application.location.length > 160) throw new Error('Please enter your current location.');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(application.dob)) throw new Error('Please enter a valid date of birth.');
+  if (!application.role || application.role.length > 160) throw new Error('Please select a role.');
+  if (!isSecureUrl(application.resume_url)) throw new Error('Please provide a secure résumé link.');
+  if (application.portfolio_url && !isSecureUrl(application.portfolio_url)) throw new Error('Please provide a secure portfolio link.');
+  if (application.message.length > 2000 || application.experience.length > 160) throw new Error('Your application contains a field that is too long.');
+  if (!application.consent) throw new Error('Please agree so we can review your application.');
+  return application;
+}
+
+function isSecureUrl(value) {
+  return /^https:\/\/[^\s]+$/i.test(value) && value.length <= 1000;
 }
 
 function validateEnquiry(payload) {
@@ -116,14 +157,46 @@ function sendVisitorAcknowledgement(enquiry, reference, wordmark) {
   sendBrandedEmail(message);
 }
 
+function sendRecruiterNotification(application, reference, wordmark) {
+  const shortReference = reference.slice(0, 8).toUpperCase();
+  const rows = [
+    ['Reference', shortReference],
+    ['Name', application.name],
+    ['Email', application.email],
+    ['Phone', application.phone],
+    ['Location', application.location],
+    ['Date of birth', application.dob],
+    ['Role', application.role],
+    ['Experience', application.experience || 'Not provided'],
+  ];
+  const text = rows.map(row => `${row[0]}: ${row[1]}`).join('\n') + `\nResume: ${application.resume_url}\nPortfolio: ${application.portfolio_url || 'Not provided'}\n\nCandidate note:\n${application.message || 'Not provided'}`;
+  const tableRows = rows.map(row => `<tr><td style="padding:8px 14px;color:#777">${escapeHtml(row[0])}</td><td style="padding:8px 14px;color:#171717">${escapeHtml(row[1])}</td></tr>`).join('');
+  const links = `<p style="margin:24px 0 10px"><a href="${escapeHtml(application.resume_url)}" style="display:inline-block;padding:12px 18px;border-radius:999px;background:#171717;color:#fff;text-decoration:none;font-weight:700">Open résumé</a></p>${application.portfolio_url ? `<p><a href="${escapeHtml(application.portfolio_url)}" style="color:#6945c6">View portfolio or LinkedIn</a></p>` : ''}`;
+  const html = emailFrame('A new application has arrived.', `<p style="margin:0 0 20px;color:#555;line-height:1.7">Review the candidate details and résumé below.</p><table style="width:100%;border-collapse:collapse;background:#f7f6f2;border-radius:12px">${tableRows}</table>${links}<h3 style="margin:28px 0 10px">Candidate note</h3><p style="white-space:pre-wrap;color:#444;line-height:1.7">${escapeHtml(application.message || 'Not provided')}</p>`, Boolean(wordmark));
+  const message = { from: RECRUITMENT_EMAIL, to: RECRUITMENT_EMAIL, replyTo: RECRUITMENT_EMAIL, name: `${COMPANY_NAME} Recruitment`, subject: `New application — ${application.role} — ${application.name} — ${shortReference}`, body: text, htmlBody: html };
+  if (wordmark) message.inlineImages = { appetiserWordmark: wordmark };
+  sendBrandedEmail(message);
+}
+
+function sendCandidateAcknowledgement(application, reference, wordmark) {
+  const firstName = application.name.split(/\s+/)[0];
+  const shortReference = reference.slice(0, 8).toUpperCase();
+  const text = `Hi ${firstName},\n\nWe have received your résumé and application for ${application.role}.\n\nOur recruitment team will review your profile and get back to you if your experience fits the role. Please be prepared for the next step if you are shortlisted.\n\nApplication reference: ${shortReference}\n\nAppetiser India Recruitment`;
+  const html = `<div style="display:none;max-height:0;overflow:hidden;color:transparent">Your application has been received by Appetiser India.</div><div style="margin:0;padding:34px 14px;background:#efeee9;font-family:Arial,sans-serif"><div style="max-width:620px;margin:auto;background:#090b0b;border-radius:22px;overflow:hidden"><div style="height:4px;background:linear-gradient(90deg,#8d72ff,#53c8ff,#edb28b)"></div><div style="padding:24px 38px;text-align:center;border-bottom:1px solid rgba(255,255,255,.1)">${emailWordmark(Boolean(wordmark), 180)}</div><div style="padding:42px 38px"><span style="display:inline-block;padding:7px 11px;border-radius:999px;background:rgba(141,114,255,.15);color:#c9baff;font-size:10px;letter-spacing:1.5px;text-transform:uppercase">Application received</span><h1 style="margin:19px 0 15px;color:#f5f3ee;font-size:32px;line-height:1.18">Hi ${escapeHtml(firstName)},<br><span style="color:#9ea29f;font-weight:400">we’ve received your résumé.</span></h1><p style="margin:0;color:#a9adaa;font-size:15px;line-height:1.75">Thank you for applying for <strong style="color:#f5f3ee">${escapeHtml(application.role)}</strong>. Our recruitment team will review your profile and get back to you if your experience fits the role.</p><div style="margin:30px 0;padding:21px 23px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:#111414"><div style="color:#edb28b;font-size:10px;letter-spacing:1.6px;text-transform:uppercase">Application reference</div><div style="margin-top:10px;color:#f4f2ed;font-size:18px;font-weight:700">${shortReference}</div></div><p style="margin:0;color:#a9adaa;font-size:14px;line-height:1.75">Please be prepared for the next step if you are shortlisted. There is no need to submit the same application again.</p></div><div style="padding:22px 38px;border-top:1px solid rgba(255,255,255,.09);color:#737875;font-size:11px">Appetiser India Recruitment · From India. Built for everywhere.</div></div></div>`;
+  const message = { from: RECRUITMENT_EMAIL, to: application.email, replyTo: RECRUITMENT_EMAIL, name: `${COMPANY_NAME} Recruitment`, subject: `We’ve received your application — ${shortReference}`, body: text, htmlBody: html };
+  if (wordmark) message.inlineImages = { appetiserWordmark: wordmark };
+  sendBrandedEmail(message);
+}
+
 function sendBrandedEmail(message) {
+  const sender = message.from || COMPANY_EMAIL;
   const aliases = GmailApp.getAliases().map(alias => alias.toLowerCase());
-  if (!aliases.includes(COMPANY_EMAIL.toLowerCase())) {
-    throw new Error(`${COMPANY_EMAIL} must be verified in Gmail under Settings → Accounts and Import → Send mail as.`);
+  if (!aliases.includes(sender.toLowerCase())) {
+    throw new Error(`${sender} must be verified in Gmail under Settings → Accounts and Import → Send mail as.`);
   }
 
   const options = {
-    from: COMPANY_EMAIL,
+    from: sender,
     name: message.name,
     replyTo: message.replyTo,
     htmlBody: message.htmlBody,
