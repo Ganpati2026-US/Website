@@ -33,6 +33,7 @@ function doPost(event) {
     const duplicateKey = `request:${submission.request_id}`;
     const existingReference = cache.get(duplicateKey);
     if (existingReference) {
+      console.log(`Enquiry ${existingReference}: duplicate request; emails were not resent.`);
       return jsonResponse({ id: existingReference, message: 'Your enquiry has been received.' });
     }
 
@@ -43,12 +44,15 @@ function doPost(event) {
     const reference = Utilities.getUuid();
     const wordmark = fetchWordmark();
     sendCompanyNotification(submission, reference, wordmark);
+    console.log(`Enquiry ${reference}: company notification send call completed.`);
     sendVisitorAcknowledgement(submission, reference, wordmark);
+    console.log(`Enquiry ${reference}: visitor acknowledgement send call completed. Inbox delivery is not verified.`);
     cache.put(duplicateKey, reference, 21600);
     cache.put(rateKey, String(submissionCount + 1), 3600);
 
     return jsonResponse({ id: reference, message: 'Your enquiry has been received.' });
   } catch (error) {
+    console.error('Enquiry submission failed; inspect the returned error and deployment permissions.');
     return jsonResponse({ error: error.message || 'We couldn’t send your enquiry right now.' });
   }
 }
