@@ -4,7 +4,7 @@ export const site = {
   heroLines: ['Think it.', 'We’ll build it.'],
   heroDescription: 'We bridge the gaps in business through technology, powered by a new generation of thinkers and builders.',
   contactEmail: 'contact@appetiserindia.com',
-  contactEndpoint: 'https://script.google.com/macros/s/AKfycbzuWalAzw0OV18NgH57fXfktmCD1GF5NKehxPTnf7zZeTTuFkYHxyyi4BYeXCKMB9WS/exec',
+  contactEndpoint: 'https://script.google.com/macros/s/AKfycbx234EZ26TXZmY9I-gXFsOKUxW1p9wBclJoKkW5i-cLi33AKr_NITJERn16FSdarVbR6Q/exec',
   careersEmail: 'recruiter@appetiserindia.com',
   phone: '',
   address: 'India. Building for everywhere.',
