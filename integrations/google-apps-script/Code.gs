@@ -14,6 +14,12 @@ function doGet() {
   return jsonResponse({ status: 'ok', service: 'Appetiser India enquiries' });
 }
 
+// Run this once from the Apps Script editor before deploying to approve the
+// project's send-mail permission without sending a test message.
+function authorizeEmail() {
+  return MailApp.getRemainingDailyQuota();
+}
+
 function doPost(event) {
   try {
     const payload = JSON.parse(event.postData.contents || '{}');
@@ -183,12 +189,15 @@ function sendCandidateAcknowledgement(application, reference, wordmark) {
 
 function sendBrandedEmail(message) {
   const options = {
+    to: message.to,
+    subject: message.subject,
+    body: message.body,
     name: message.name,
     replyTo: COMPANY_EMAIL,
     htmlBody: message.htmlBody,
   };
   if (message.inlineImages) options.inlineImages = message.inlineImages;
-  GmailApp.sendEmail(message.to, message.subject, message.body, options);
+  MailApp.sendEmail(options);
 }
 
 function emailFrame(title, content, hasWordmark) {
