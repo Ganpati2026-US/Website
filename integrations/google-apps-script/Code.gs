@@ -19,8 +19,7 @@ function doPost(event) {
     const payload = JSON.parse(event.postData.contents || '{}');
     if (payload.website) return jsonResponse({ error: 'Unable to submit this enquiry.' });
 
-    const isCareer = payload.type === 'career';
-    const submission = isCareer ? validateCareerApplication(payload) : validateEnquiry(payload);
+    const submission = validateEnquiry(payload);
     const cache = CacheService.getScriptCache();
     const duplicateKey = `request:${submission.request_id}`;
     const existingReference = cache.get(duplicateKey);
@@ -28,24 +27,18 @@ function doPost(event) {
       return jsonResponse({ id: existingReference, message: 'Your enquiry has been received.' });
     }
 
-    const submissionEmail = isCareer ? submission.email : submission.work_email;
-    const rateKey = `${isCareer ? 'career' : 'email'}:${digest(submissionEmail)}`;
+    const rateKey = `email:${digest(submission.work_email)}`;
     const submissionCount = Number(cache.get(rateKey) || 0);
     if (submissionCount >= 5) throw new Error('You’ve sent a few enquiries recently. Please try again in an hour.');
 
     const reference = Utilities.getUuid();
     const wordmark = fetchWordmark();
-    if (isCareer) {
-      sendRecruiterNotification(submission, reference, wordmark);
-      sendCandidateAcknowledgement(submission, reference, wordmark);
-    } else {
-      sendCompanyNotification(submission, reference, wordmark);
-      sendVisitorAcknowledgement(submission, reference, wordmark);
-    }
+    sendCompanyNotification(submission, reference, wordmark);
+    sendVisitorAcknowledgement(submission, reference, wordmark);
     cache.put(duplicateKey, reference, 21600);
     cache.put(rateKey, String(submissionCount + 1), 3600);
 
-    return jsonResponse({ id: reference, message: isCareer ? 'Your application has been received.' : 'Your enquiry has been received.' });
+    return jsonResponse({ id: reference, message: 'Your enquiry has been received.' });
   } catch (error) {
     return jsonResponse({ error: error.message || 'We couldn’t send your enquiry right now.' });
   }
@@ -189,16 +182,9 @@ function sendCandidateAcknowledgement(application, reference, wordmark) {
 }
 
 function sendBrandedEmail(message) {
-  const sender = message.from || COMPANY_EMAIL;
-  const aliases = GmailApp.getAliases().map(alias => alias.toLowerCase());
-  if (!aliases.includes(sender.toLowerCase())) {
-    throw new Error(`${sender} must be verified in Gmail under Settings → Accounts and Import → Send mail as.`);
-  }
-
   const options = {
-    from: sender,
     name: message.name,
-    replyTo: message.replyTo,
+    replyTo: COMPANY_EMAIL,
     htmlBody: message.htmlBody,
   };
   if (message.inlineImages) options.inlineImages = message.inlineImages;

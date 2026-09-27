@@ -9,7 +9,7 @@ import { Button } from './ui/button';
 import { jobs } from '../data/jobs';
 import { site } from '../config/site';
 
-const endpoint = (process.env.REACT_APP_CONTACT_ENDPOINT || site.contactEndpoint || '').trim();
+const endpoint = (process.env.REACT_APP_CAREERS_ENDPOINT || site.careersEndpoint || '').trim();
 const roles = ['General application', ...jobs.filter(job => job.isOpen).map(job => job.role)];
 
 export default function RecruitmentForm() {

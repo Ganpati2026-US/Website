@@ -6,10 +6,7 @@ Script. Gmail credentials are never stored in the website.
 
 ## One-time Google setup
 
-1. Sign in to the Google account that owns the Apps Script. In Gmail, open
-   **Settings → See all settings → Accounts and Import → Send mail as**, then
-   add and verify both `contact@appetiserindia.com` and
-   `recruiter@appetiserindia.com` with **Treat as an alias** enabled.
+1. Sign in as `contact@appetiserindia.com`.
 2. Open [script.google.com](https://script.google.com/).
 3. Create a **New project** named `Appetiser India enquiries`.
 4. Replace the contents of `Code.gs` with
@@ -36,13 +33,23 @@ After changing `Code.gs`, use **Deploy → Manage deployments → Edit**, select
 
 The script validates fields, ignores the honeypot, deduplicates request IDs and
 limits each visitor email to five submissions per hour. Google applies its own
-daily email quota. Every outgoing message uses `contact@appetiserindia.com` for
-both **From** and **Reply-To**. The script checks that this address is a verified
-Gmail sender alias and stops with an error if it is unavailable, so it cannot
-silently send from the personal Gmail address.
+daily email quota. Because this project runs as the contact mailbox, every
+outgoing message is sent directly from and replies to
+`contact@appetiserindia.com`; no sender alias is required.
 
-Career applications use the same endpoint with a `type: "career"` payload.
-Candidate details and their secure Google Drive or iCloud résumé link are sent
-to `recruiter@appetiserindia.com`. The candidate receives a branded confirmation
-from the same address. Ensure shared résumé documents allow viewing by anyone
-with the link; the website does not copy or publicly expose those documents.
+## Separate recruitment deployment
+
+Recruitment uses its own Apps Script project and Google Workspace account:
+
+1. Sign in as `recruiter@appetiserindia.com`.
+2. Create a new Apps Script project named `Appetiser India recruitment`.
+3. Paste `integrations/google-apps-script/recruitment/Code.gs` into its `Code.gs`.
+4. Deploy it as a web app with **Execute as: Me** and **Who has access: Anyone**.
+5. Copy its `/exec` URL into `site.careersEndpoint` in
+   `frontend/src/config/site.ts`.
+
+Because this project runs as the recruitment mailbox, its messages are sent
+directly from and reply to `recruiter@appetiserindia.com`; no cross-account
+sender alias is needed. Candidate details and their secure Google Drive or
+iCloud résumé link are delivered to that mailbox. Ensure shared documents allow
+viewing by anyone with the link.
