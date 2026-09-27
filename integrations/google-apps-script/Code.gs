@@ -81,13 +81,13 @@ function sendCompanyNotification(enquiry, reference, wordmark) {
   const tableRows = rows.map(row => `<tr><td style="padding:8px 14px;color:#777">${escapeHtml(row[0])}</td><td style="padding:8px 14px;color:#171717">${escapeHtml(row[1])}</td></tr>`).join('');
   const html = emailFrame(
     'A new conversation has started.',
-    `<p style="margin:0 0 20px;color:#555;line-height:1.7">A new website enquiry is ready for your reply.</p><table style="width:100%;border-collapse:collapse;background:#f7f6f2;border-radius:12px">${tableRows}</table><h3 style="margin:28px 0 10px">The idea</h3><p style="white-space:pre-wrap;color:#444;line-height:1.7">${escapeHtml(enquiry.idea)}</p><p style="margin-top:28px;color:#777;font-size:13px">Reply directly to this email to contact ${escapeHtml(enquiry.name)}.</p>`,
+    `<p style="margin:0 0 20px;color:#555;line-height:1.7">A new website enquiry is ready for your review.</p><table style="width:100%;border-collapse:collapse;background:#f7f6f2;border-radius:12px">${tableRows}</table><h3 style="margin:28px 0 10px">The idea</h3><p style="white-space:pre-wrap;color:#444;line-height:1.7">${escapeHtml(enquiry.idea)}</p><p style="margin-top:28px;color:#777;font-size:13px">Contact ${escapeHtml(enquiry.name)} using the email address shown above.</p>`,
     Boolean(wordmark),
   );
 
   const message = {
     to: COMPANY_EMAIL,
-    replyTo: enquiry.work_email,
+    replyTo: COMPANY_EMAIL,
     name: COMPANY_NAME,
     subject: `New enquiry — ${enquiry.name} — ${shortReference}`,
     body: text,

@@ -5,8 +5,7 @@ export const site = {
   heroDescription: 'We bridge the gaps in business through technology, powered by a new generation of thinkers and builders.',
   contactEmail: 'contact@appetiserindia.com',
   contactEndpoint: 'https://script.google.com/macros/s/AKfycbzuWalAzw0OV18NgH57fXfktmCD1GF5NKehxPTnf7zZeTTuFkYHxyyi4BYeXCKMB9WS/exec',
-  // Careers uses contactEmail unless a dedicated address is added here.
-  careersEmail: '',
+  careersEmail: 'recruiter@appetiserindia.com',
   phone: '',
   address: 'India. Building for everywhere.',
   socialLinks: [] as { label: string; url: string }[],

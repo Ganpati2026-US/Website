@@ -6,21 +6,23 @@ Script. Gmail credentials are never stored in the website.
 
 ## One-time Google setup
 
-1. Sign in to the Google account that owns the Apps Script and open
-   [script.google.com](https://script.google.com/).
-2. Create a **New project** named `Appetiser India enquiries`.
-3. Replace the contents of `Code.gs` with
+1. Sign in to the Google account that owns the Apps Script. In Gmail, open
+   **Settings → See all settings → Accounts and Import → Send mail as**, then
+   add and verify `contact@appetiserindia.com` with **Treat as an alias** enabled.
+2. Open [script.google.com](https://script.google.com/).
+3. Create a **New project** named `Appetiser India enquiries`.
+4. Replace the contents of `Code.gs` with
    `integrations/google-apps-script/Code.gs` from this repository.
-4. Select **Deploy → New deployment → Web app**.
-5. Set **Execute as** to `Me` and **Who has access** to `Anyone`.
-6. Select **Deploy**, approve the mail permission, and copy the `/exec` URL.
-7. Create `frontend/.env.production` containing:
+5. Select **Deploy → New deployment → Web app**.
+6. Set **Execute as** to `Me` and **Who has access** to `Anyone`.
+7. Select **Deploy**, approve the Gmail permission, and copy the `/exec` URL.
+8. Create `frontend/.env.production` containing:
 
    ```env
    REACT_APP_CONTACT_ENDPOINT=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
    ```
 
-8. Rebuild and deploy the website.
+9. Rebuild and deploy the website.
 
 Open the `/exec` URL directly before rebuilding. It should display JSON with
 `"status":"ok"`. Submit one test enquiry with an email address you can check;
@@ -33,10 +35,7 @@ After changing `Code.gs`, use **Deploy → Manage deployments → Edit**, select
 
 The script validates fields, ignores the honeypot, deduplicates request IDs and
 limits each visitor email to five submissions per hour. Google applies its own
-daily email quota. Enquiry notifications and replies use
-`contact@appetiserindia.com`. The actual From address is the Google account that
-owns the Apps Script unless the professional address is configured as an alias.
-Before deploying, open Gmail **Settings → Accounts and Import → Send mail as**,
-add and verify `contact@appetiserindia.com`, and use that address as the default
-reply address. The script checks this alias and will not silently send from the
-personal Gmail address.
+daily email quota. Every outgoing message uses `contact@appetiserindia.com` for
+both **From** and **Reply-To**. The script checks that this address is a verified
+Gmail sender alias and stops with an error if it is unavailable, so it cannot
+silently send from the personal Gmail address.
