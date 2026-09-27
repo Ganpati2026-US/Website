@@ -1,6 +1,6 @@
 const COMPANY_NAME = 'Appetiser India';
 const COMPANY_EMAIL = 'appetiserindia@gmail.com';
-const WORDMARK_URL = 'https://appetiserindia.appetiserindia.workers.dev/assets/brand/appetiser-india-wordmark.png';
+const WORDMARK_URL = 'https://appetiserindia.appetiserindia.workers.dev/assets/brand/appetiser-india-email-wordmark.png';
 const ALLOWED_INTERESTS = [
   'Building a new product',
   'Improving an existing product',
@@ -122,7 +122,7 @@ function emailFrame(title, content, hasWordmark) {
 }
 
 function emailWordmark(hasWordmark, width) {
-  if (hasWordmark) return `<img src="cid:appetiserWordmark" width="${width}" alt="Appetiser India" style="display:block;width:${width}px;height:auto;border:0">`;
+  if (hasWordmark) return `<img src="cid:appetiserWordmark" width="${width}" alt="Appetiser India" style="display:block;width:${width}px;height:auto;border:0;background:#090b0b;color:#f5f3ee">`;
   return '<div style="font-size:22px;font-weight:700">Appetiser <span style="display:block;margin-top:5px;font-size:8px;letter-spacing:4px;font-weight:400">INDIA</span></div>';
 }
 
@@ -130,7 +130,9 @@ function fetchWordmark() {
   try {
     const response = UrlFetchApp.fetch(WORDMARK_URL, { followRedirects: true, muteHttpExceptions: true });
     if (response.getResponseCode() !== 200) return null;
-    return response.getBlob().setName('appetiser-india-wordmark.png');
+    const blob = response.getBlob();
+    if (blob.getContentType() !== 'image/png') return null;
+    return blob.setName('appetiser-india-email-wordmark.png');
   } catch (error) {
     return null;
   }
