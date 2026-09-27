@@ -35,6 +35,8 @@ The script validates fields, ignores the honeypot, deduplicates request IDs and
 limits each visitor email to five submissions per hour. Google applies its own
 daily email quota. Enquiry notifications and replies use
 `contact@appetiserindia.com`. The actual From address is the Google account that
-owns the Apps Script. To send directly from `contact@appetiserindia.com`, deploy
-the script while signed into that Google Workspace mailbox, or configure and
-verify it as a Gmail sending alias.
+owns the Apps Script unless the professional address is configured as an alias.
+Before deploying, open Gmail **Settings → Accounts and Import → Send mail as**,
+add and verify `contact@appetiserindia.com`, and use that address as the default
+reply address. The script checks this alias and will not silently send from the
+personal Gmail address.

@@ -94,7 +94,7 @@ function sendCompanyNotification(enquiry, reference, wordmark) {
     htmlBody: html,
   };
   if (wordmark) message.inlineImages = { appetiserWordmark: wordmark };
-  MailApp.sendEmail(message);
+  sendBrandedEmail(message);
 }
 
 function sendVisitorAcknowledgement(enquiry, reference, wordmark) {
@@ -113,7 +113,23 @@ function sendVisitorAcknowledgement(enquiry, reference, wordmark) {
     htmlBody: html,
   };
   if (wordmark) message.inlineImages = { appetiserWordmark: wordmark };
-  MailApp.sendEmail(message);
+  sendBrandedEmail(message);
+}
+
+function sendBrandedEmail(message) {
+  const aliases = GmailApp.getAliases().map(alias => alias.toLowerCase());
+  if (!aliases.includes(COMPANY_EMAIL.toLowerCase())) {
+    throw new Error(`${COMPANY_EMAIL} must be verified in Gmail under Settings → Accounts and Import → Send mail as.`);
+  }
+
+  const options = {
+    from: COMPANY_EMAIL,
+    name: message.name,
+    replyTo: message.replyTo,
+    htmlBody: message.htmlBody,
+  };
+  if (message.inlineImages) options.inlineImages = message.inlineImages;
+  GmailApp.sendEmail(message.to, message.subject, message.body, options);
 }
 
 function emailFrame(title, content, hasWordmark) {
