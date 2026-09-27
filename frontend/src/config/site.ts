@@ -3,7 +3,7 @@ export const site = {
   tagline: 'Ideas deserve exceptional products.',
   heroLines: ['Think it.', 'We’ll build it.'],
   heroDescription: 'We bridge the gaps in business through technology, powered by a new generation of thinkers and builders.',
-  contactEmail: 'appetiserindia@gmail.com',
+  contactEmail: 'contact@appetiserindia.com',
   contactEndpoint: 'https://script.google.com/macros/s/AKfycbzuWalAzw0OV18NgH57fXfktmCD1GF5NKehxPTnf7zZeTTuFkYHxyyi4BYeXCKMB9WS/exec',
   // Careers uses contactEmail unless a dedicated address is added here.
   careersEmail: '',

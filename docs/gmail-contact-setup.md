@@ -1,12 +1,12 @@
 # Gmail contact delivery and automatic replies
 
-The website is prepared to send new enquiries to `appetiserindia@gmail.com` and
+The website is prepared to send new enquiries to `contact@appetiserindia.com` and
 send an immediate branded acknowledgement to the visitor through Google Apps
 Script. Gmail credentials are never stored in the website.
 
 ## One-time Google setup
 
-1. Sign in to `appetiserindia@gmail.com` and open
+1. Sign in to the Google account that owns the Apps Script and open
    [script.google.com](https://script.google.com/).
 2. Create a **New project** named `Appetiser India enquiries`.
 3. Replace the contents of `Code.gs` with
@@ -33,6 +33,8 @@ After changing `Code.gs`, use **Deploy → Manage deployments → Edit**, select
 
 The script validates fields, ignores the honeypot, deduplicates request IDs and
 limits each visitor email to five submissions per hour. Google applies its own
-daily email quota. Messages display `Appetiser India` as the sender name, while
-the actual sending address remains `appetiserindia@gmail.com` until a company
-domain and Google Workspace account are configured.
+daily email quota. Enquiry notifications and replies use
+`contact@appetiserindia.com`. The actual From address is the Google account that
+owns the Apps Script. To send directly from `contact@appetiserindia.com`, deploy
+the script while signed into that Google Workspace mailbox, or configure and
+verify it as a Gmail sending alias.
