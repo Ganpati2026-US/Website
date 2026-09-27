@@ -22,7 +22,10 @@ function authorizeEmail() {
 
 function doPost(event) {
   try {
-    const payload = JSON.parse(event.postData.contents || '{}');
+    const contents = event && event.postData && event.postData.contents;
+    if (!contents || contents.length > 20000) throw new Error('Invalid submission.');
+    const payload = JSON.parse(contents);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid submission.');
     if (payload.website) return jsonResponse({ error: 'Unable to submit this enquiry.' });
 
     const submission = validateEnquiry(payload);
@@ -99,6 +102,8 @@ function validateEnquiry(payload) {
   if (!enquiry.request_id || enquiry.request_id.length > 80) throw new Error('Invalid request reference.');
   if (enquiry.name.length < 2 || enquiry.name.length > 100) throw new Error('Please enter your name.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enquiry.work_email)) throw new Error('Please enter a valid email address.');
+  if (enquiry.work_email.length > 254 || /[\r\n]/.test(enquiry.name)) throw new Error('Invalid contact details.');
+  if (enquiry.company.length > 160 || enquiry.budget.length > 160 || enquiry.timeline.length > 160) throw new Error('Your enquiry contains a field that is too long.');
   if (!ALLOWED_INTERESTS.includes(enquiry.interest)) throw new Error('Please select a valid interest.');
   if (enquiry.idea.length < 20 || enquiry.idea.length > 5000) throw new Error('Please tell us a little more about your idea.');
   if (!enquiry.consent) throw new Error('Please agree so we can respond to your enquiry.');

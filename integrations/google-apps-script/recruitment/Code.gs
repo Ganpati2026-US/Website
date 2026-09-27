@@ -8,7 +8,10 @@ function doGet() {
 
 function doPost(event) {
   try {
-    const payload = JSON.parse(event.postData.contents || '{}');
+    const contents = event && event.postData && event.postData.contents;
+    if (!contents || contents.length > 20000) throw new Error('Invalid submission.');
+    const payload = JSON.parse(contents);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid submission.');
     if (payload.website) return jsonResponse({ error: 'Unable to submit this application.' });
     const application = validateApplication(payload);
     const cache = CacheService.getScriptCache();
@@ -42,6 +45,7 @@ function validateApplication(payload) {
   if (!value.request_id || value.request_id.length > 80) throw new Error('Invalid application reference.');
   if (value.name.length < 2 || value.name.length > 100) throw new Error('Please enter your full name.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email)) throw new Error('Please enter a valid email address.');
+  if (value.email.length > 254 || /[\r\n]/.test(value.name + value.role)) throw new Error('Invalid application details.');
   if (value.phone.length < 7 || value.phone.length > 40) throw new Error('Please enter a valid phone number.');
   if (value.location.length < 2 || value.location.length > 160) throw new Error('Please enter your current location.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value.dob)) throw new Error('Please enter a valid date of birth.');
