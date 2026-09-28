@@ -8,7 +8,9 @@ export const site = {
   careersEmail: 'recruiter@appetiserindia.com',
   careersEndpoint: 'https://script.google.com/macros/s/AKfycbx234EZ26TXZmY9I-gXFsOKUxW1p9wBclJoKkW5i-cLi33AKr_NITJERn16FSdarVbR6Q/exec',
   phone: '',
-  address: 'India. Building for everywhere.',
+  address: '3rd Floor, K10, Wardha Rd, Jai Prakash Nagar, New Sneh Nagar, Nagpur, Maharashtra 440015',
+  addressVenue: 'Regus K10 Corporate',
+  addressMapUrl: 'https://maps.app.goo.gl/chyHJCRRVZEJ7jAu6',
   socialLinks: [] as { label: string; url: string }[],
   // Public Spline robot demo. Replace with your own exported scene.splinecode URL.
   // Source: https://codepen.io/Johnxxx/pen/pvgyYvq
