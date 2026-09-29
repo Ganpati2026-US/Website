@@ -4,14 +4,15 @@ import { PageHero, Eyebrow, Action, Reveal, FinalCTA } from '../components/Primi
 import { ProductSpotlight } from '../components/bitbyte/ProductSpotlight';
 import { ProductStory } from '../components/bitbyte/ProductStory';
 import { products } from '../data/products';
-import { ArrowUpRight, ArrowRight, UtensilsCrossed, ScanLine, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import BitByteMolecules from './BitByteMolecules';
 import './Products.css';
 import NotFound from './NotFound';
 
 const modules = [
-  { number: '01', icon: ScanLine, word: 'SCAN', copy: 'A menu, one scan away.' },
-  { number: '02', icon: UtensilsCrossed, word: 'ORDER', copy: 'Less waiting. More enjoying.' },
-  { number: '03', icon: Sparkles, word: 'FLOW', copy: 'A smoother experience for every table.' },
+  { number: '01', word: 'SCAN', copy: 'A quiet little scan at the table.' },
+  { number: '02', word: 'BROWSE', copy: 'Take your time with the menu.' },
+  { number: '03', word: 'ORDER', copy: 'Send the good stuff on its way.' },
 ];
 
 export default function Products() {
@@ -20,18 +21,17 @@ export default function Products() {
     <section className="bitbyte-launch" aria-labelledby="bitbyte-launch-title">
       <div className="bitbyte-launch-inner container">
         <div className="bitbyte-launch-meta"><span>AN APPETISER INDIA PRODUCT</span><span className="bitbyte-launch-status"><i /> COMING SOON</span></div>
-        <h1 id="bitbyte-launch-title" className="bitbyte-launch-title" data-testid="products-page-heading"><span>BIT</span><span>BYTE<span className="bitbyte-launch-period">.</span></span></h1>
-        <div className="bitbyte-launch-bottom"><p>Something good<br /><em>is almost on the menu.</em></p><span className="bitbyte-launch-index">RESTRO / 001<br />NAGPUR, INDIA</span></div>
-        <Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro" data-testid="bitbyte-early-interest">Get in touch about BitByte <ArrowUpRight size={21} /></Link>
+        <BitByteMolecules />
+        <div className="bitbyte-launch-bottom"><p>For the little moments<br /><em>before the first bite.</em></p><span className="bitbyte-launch-index">RESTRO / 001<br />NAGPUR, INDIA</span></div>
+        <Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro" data-testid="bitbyte-early-interest">Ask us about BitByte <ArrowUpRight size={21} /></Link>
       </div>
-      <div className="bitbyte-launch-orbit bitbyte-launch-orbit-one" aria-hidden="true" /><div className="bitbyte-launch-orbit bitbyte-launch-orbit-two" aria-hidden="true" />
     </section>
     <section className="bitbyte-modules container" aria-labelledby="bitbyte-modules-title">
-      <div className="bitbyte-modules-heading"><span className="small-label">A NEW WAY TO DINE IS TAKING SHAPE</span><h2 id="bitbyte-modules-title">Small moments.<br /><span>Big difference.</span></h2><p>BitByte is being built around the moments between choosing a meal and enjoying it. Here’s the idea.</p></div>
-      <div className="bitbyte-module-grid">{modules.map(({ number, icon: Icon, word, copy }) => <article className="bitbyte-module" key={word}><div className="bitbyte-module-top"><span>{number} / THE IDEA</span><Icon size={24} strokeWidth={1.4} aria-hidden="true" /></div><strong aria-label={word}>{word}</strong><p>{copy}</p></article>)}</div>
-      <div className="bitbyte-modules-end"><span>MADE FOR THE TABLE. BUILT FOR WHAT'S NEXT.</span><Link to="/products/bitbyte-restro">Explore the concept <ArrowRight size={18} /></Link></div>
+      <div className="bitbyte-modules-heading"><span className="small-label">A NEW WAY TO DINE IS TAKING SHAPE</span><h2 id="bitbyte-modules-title">The good stuff<br /><span>starts here.</span></h2><p>A small thought: ordering should feel as easy as deciding what looks delicious. BitByte is still in the making, and this is where we’re starting.</p></div>
+      <div className="bitbyte-module-grid">{modules.map(({ number, word, copy }) => <article className="bitbyte-module" key={word}><div className="bitbyte-module-top"><span>{number} / THE IDEA</span><span className="bitbyte-module-mark" aria-hidden="true">✳</span></div><strong aria-label={word}>{word}</strong><p>{copy}</p></article>)}</div>
+      <div className="bitbyte-modules-end"><span>A LITTLE PREVIEW OF WHAT COULD BE.</span><Link to="/products/bitbyte-restro">Explore the concept <ArrowRight size={18} /></Link></div>
     </section>
-    <section className="bitbyte-waitlist container"><span className="small-label">COMING SOON</span><h2>Want a seat at<br /><span>the table?</span></h2><p>Curious about BitByte for your restaurant? Start a conversation with our team.</p><Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro">Talk to us <ArrowUpRight size={20} /></Link></section>
+    <section className="bitbyte-waitlist container"><span className="small-label">COMING SOON</span><h2>Save a seat<br /><span>at the table.</span></h2><p>Curious about BitByte for your restaurant? Start a conversation with our team.</p><Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro">Talk to us <ArrowUpRight size={20} /></Link></section>
   </>;
 }
 
