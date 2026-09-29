@@ -9,7 +9,7 @@ import { BitByteWordmark, MenuDemo } from './MenuDemo';
 export const ProductSpotlight = ({ product, index = 0 }) => {
   const bitbyte = product.id === 'bitbyte-restro';
   return <Reveal className={`product-spotlight ${bitbyte ? 'bitbyte-spotlight' : 'generic-spotlight'}`} data-testid={`product-${product.slug}`} style={{ '--product-accent': product.accent }}>
-    <div className="product-spotlight-top"><span data-testid={`product-index-${product.slug}`}>0{index + 1} / AN APPETISER INDIA PRODUCT</span><span className="product-status" data-testid={`product-status-${product.slug}`}><i />{product.status === 'active' ? 'LIVE PRODUCT' : 'COMING SOON'}</span></div>
+    <div className="product-spotlight-top"><span data-testid={`product-index-${product.slug}`}>0{index + 1} / AN APPETISER INDIA PRODUCT</span><span className="product-status" data-testid={`product-status-${product.slug}`}><i />{product.status === 'active' ? 'LIVE PRODUCT' : bitbyte ? 'COOKING' : 'COMING SOON'}</span></div>
     <div className="product-spotlight-grid"><div className="product-spotlight-copy">{product.logo ? <img className="product-logo" src={product.logo} alt={product.name} /> : bitbyte ? <BitByteWordmark id="spotlight-bitbyte-wordmark" /> : <span className="generic-product-name">{product.name}</span>}<span className="product-category" data-testid={`category-${product.slug}`}>{product.category}</span><h3 data-testid={`tagline-${product.slug}`}>{bitbyte ? <>Restaurant management.<br /><span>Powered by AI.</span></> : product.tagline}</h3><p data-testid={`description-${product.slug}`}>{bitbyte ? 'BitByte is taking shape for restaurants, cafés and hospitality businesses. Explore the vision for a simpler, more connected dining experience.' : product.description}</p><Action id={`explore-${product.slug}`} to={`/products/${product.slug}`} variant="product" arrow="up">Meet {bitbyte ? 'BitByte Restro' : product.name}</Action><div className="spotlight-capabilities" data-testid={`capabilities-${product.slug}`}>{product.features.slice(0, 3).map(f => <span key={f.title}><Check size={12} />{f.title}</span>)}</div></div>
     <div className="product-spotlight-visual">{bitbyte ? <><div className="bitbyte-desktop"><div className="browser-bar"><span>BitByte Restro</span><ArrowUpRight size={11} /></div><div className="bitbyte-welcome"><BitByteWordmark id="desktop-bitbyte-wordmark" /><h4>Smart Ordering.<br /><span>Smarter Dining.</span></h4><p>Great food is just a scan away.</p><div className="welcome-qr"><QrCode size={52} strokeWidth={1.5} /><span>SCAN. ORDER. ENJOY.</span></div><div className="welcome-steps"><span><QrCode />Scan QR</span><span><Utensils />Browse menu</span><span><Check />Place order</span></div><Link to="/contact?interest=BitByte%20Restro" data-testid="spotlight-restaurant-enquiry" className="restaurant-entry">Restaurant Dashboard <ArrowUpRight size={12} /></Link></div></div><div className="spotlight-phone"><MenuDemo prefix="spotlight" compact /></div><span className="preview-caption" data-testid="spotlight-preview-label">ILLUSTRATIVE PRODUCT PREVIEW</span></> : product.heroImage ? <img src={product.heroImage} alt={`${product.name} product overview`} loading="lazy" /> : <div className="generic-product-art" aria-hidden="true"><span>{product.name.charAt(0)}</span></div>}</div></div>
   </Reveal>;
@@ -39,14 +39,20 @@ export const CustomerCarousel = ({ waitlist = false }) => {
       <div><Eyebrow id="customers-label">{waitlist ? 'THE EARLY LIST' : 'OUR CUSTOMERS'}</Eyebrow><h2>{waitlist ? 'Already at the table.' : <>Trusted at the tables<br />that matter.</>}</h2></div>
       <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button>{!waitlist && <span>0{active + 1} / 0{customers.length}</span>}<button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
     </div>
-    <div ref={ref} className="customer-viewport">
+    {waitlist ? <div ref={ref} className="bitbyte-early-names" aria-label="Restaurants on the early list">
+      {customers.map((customer, index) => <button className={`bitbyte-early-name${active === index ? ' is-active' : ''}`} key={customer.name} onClick={() => setActive(index)} aria-pressed={active === index}>
+        <span className="bitbyte-early-number">0{index + 1}</span>
+        <span className="bitbyte-early-title">{customer.name}</span>
+        <span className="bitbyte-early-location">{customer.location}</span>
+      </button>)}
+    </div> : <div ref={ref} className="customer-viewport">
       <div className="customer-track" style={{ transform: `translateX(-${active * 100}%)` }}>
         {customers.map(customer => <article className="customer-card" key={customer.name}>
           <div className="customer-image"><img src={customer.image} alt={`${customer.name} logo`} loading="lazy" style={{ objectFit: customer.fit }} /></div>
-          <div className="customer-copy"><span>{waitlist ? 'ON THE BITBYTE WAITLIST' : 'BITBYTE CUSTOMER'}</span><h3>{customer.name}</h3><p>{customer.location}</p></div>
+          <div className="customer-copy"><span>BITBYTE CUSTOMER</span><h3>{customer.name}</h3><p>{customer.location}</p></div>
         </article>)}
       </div>
-    </div>
+    </div>}
   </Reveal>;
 };
 
