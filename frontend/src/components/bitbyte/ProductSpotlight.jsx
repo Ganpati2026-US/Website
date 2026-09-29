@@ -21,7 +21,7 @@ const customers = [
   { name: 'Delhi 6', location: 'Pratap Nagar, Nagpur', image: '/assets/customers/delhi-6.png', fit: 'cover' },
 ];
 
-const CustomerCarousel = () => {
+export const CustomerCarousel = ({ waitlist = false }) => {
   const ref = useRef(null);
   const inView = useInView(ref);
   const reduced = useReducedMotion();
@@ -36,14 +36,14 @@ const CustomerCarousel = () => {
   const move = direction => setActive(value => (value + direction + customers.length) % customers.length);
   return <Reveal className="customer-showcase" data-testid="customer-carousel">
     <div className="customer-showcase-head">
-      <div><Eyebrow id="customers-label">OUR CUSTOMERS</Eyebrow><h2>Trusted at the tables<br />that matter.</h2></div>
+      <div><Eyebrow id="customers-label">{waitlist ? 'THE EARLY LIST' : 'OUR CUSTOMERS'}</Eyebrow><h2>{waitlist ? 'Already at the table.' : <>Trusted at the tables<br />that matter.</>}</h2></div>
       <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button><span>0{active + 1} / 0{customers.length}</span><button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
     </div>
     <div ref={ref} className="customer-viewport">
       <div className="customer-track" style={{ transform: `translateX(-${active * 100}%)` }}>
         {customers.map(customer => <article className="customer-card" key={customer.name}>
           <div className="customer-image"><img src={customer.image} alt={`${customer.name} logo`} loading="lazy" style={{ objectFit: customer.fit }} /></div>
-          <div className="customer-copy"><span>BITBYTE CUSTOMER</span><h3>{customer.name}</h3><p>{customer.location}</p></div>
+          <div className="customer-copy"><span>{waitlist ? 'ON THE BITBYTE WAITLIST' : 'BITBYTE CUSTOMER'}</span><h3>{customer.name}</h3><p>{customer.location}</p></div>
         </article>)}
       </div>
     </div>

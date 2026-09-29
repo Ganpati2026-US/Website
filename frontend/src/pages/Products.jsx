@@ -1,37 +1,25 @@
 import { Link, useParams } from 'react-router-dom';
 import { SEO } from '../components/Layout';
 import { PageHero, Eyebrow, Action, Reveal, FinalCTA } from '../components/Primitives';
-import { ProductSpotlight } from '../components/bitbyte/ProductSpotlight';
+import { ProductSpotlight, CustomerCarousel } from '../components/bitbyte/ProductSpotlight';
 import { ProductStory } from '../components/bitbyte/ProductStory';
 import { products } from '../data/products';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import BitByteMolecules from './BitByteMolecules';
 import './Products.css';
 import NotFound from './NotFound';
-
-const modules = [
-  { number: '01', word: 'SCAN', copy: 'A quiet little scan at the table.' },
-  { number: '02', word: 'BROWSE', copy: 'Take your time with the menu.' },
-  { number: '03', word: 'ORDER', copy: 'Send the good stuff on its way.' },
-];
 
 export default function Products() {
   return <>
     <SEO title="BitByte — Coming soon" description="BitByte Restro is coming soon. A more thoughtful digital dining experience is in the making." />
     <section className="bitbyte-launch" aria-labelledby="bitbyte-launch-title">
-      <div className="bitbyte-launch-inner container">
-        <div className="bitbyte-launch-meta"><span>AN APPETISER INDIA PRODUCT</span><span className="bitbyte-launch-status"><i /> COMING SOON</span></div>
+      <div className="bitbyte-launch-inner">
+        <span className="bitbyte-launch-status"><i /> COMING SOON</span>
         <BitByteMolecules />
-        <div className="bitbyte-launch-bottom"><p>For the little moments<br /><em>before the first bite.</em></p><span className="bitbyte-launch-index">RESTRO / 001<br />NAGPUR, INDIA</span></div>
         <Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro" data-testid="bitbyte-early-interest">Ask us about BitByte <ArrowUpRight size={21} /></Link>
       </div>
     </section>
-    <section className="bitbyte-modules container" aria-labelledby="bitbyte-modules-title">
-      <div className="bitbyte-modules-heading"><span className="small-label">A NEW WAY TO DINE IS TAKING SHAPE</span><h2 id="bitbyte-modules-title">The good stuff<br /><span>starts here.</span></h2><p>A small thought: ordering should feel as easy as deciding what looks delicious. BitByte is still in the making, and this is where we’re starting.</p></div>
-      <div className="bitbyte-module-grid">{modules.map(({ number, word, copy }) => <article className="bitbyte-module" key={word}><div className="bitbyte-module-top"><span>{number} / THE IDEA</span><span className="bitbyte-module-mark" aria-hidden="true">✳</span></div><strong aria-label={word}>{word}</strong><p>{copy}</p></article>)}</div>
-      <div className="bitbyte-modules-end"><span>A LITTLE PREVIEW OF WHAT COULD BE.</span><Link to="/products/bitbyte-restro">Explore the concept <ArrowRight size={18} /></Link></div>
-    </section>
-    <section className="bitbyte-waitlist container"><span className="small-label">COMING SOON</span><h2>Save a seat<br /><span>at the table.</span></h2><p>Curious about BitByte for your restaurant? Start a conversation with our team.</p><Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro">Talk to us <ArrowUpRight size={20} /></Link></section>
+    <section className="bitbyte-waitlist-carousel container" aria-label="BitByte waitlist"><CustomerCarousel waitlist /></section>
   </>;
 }
 

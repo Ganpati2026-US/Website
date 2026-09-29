@@ -29,3 +29,14 @@
 @media(max-width:900px){.bitbyte-molecule-type{height:clamp(380px,55vw,520px)}.bitbyte-modules{padding-left:max(36px,calc((100vw - 1280px)/2));padding-right:max(36px,calc((100vw - 1280px)/2))}.bitbyte-module-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.bitbyte-module{min-height:300px}.bitbyte-module strong{font-size:clamp(38px,5vw,68px)}}
 @media(max-width:650px){.bitbyte-launch-inner{padding-bottom:76px}.bitbyte-molecule-type{height:340px;margin-top:28px}.bitbyte-molecule-fallback{font-size:clamp(85px,19vw,135px)}.bitbyte-launch-bottom p{font-size:29px}.bitbyte-modules{padding:78px 24px}.bitbyte-module-grid{grid-template-columns:1fr;margin-top:48px}.bitbyte-module,.bitbyte-module:first-child{min-height:220px;padding:24px 0;border-right:0;border-bottom:1px solid #7464776b}.bitbyte-module:last-child{border-bottom:0}.bitbyte-module strong{font-size:69px}.bitbyte-waitlist{margin-top:60px}}
 @media(max-width:374px){.bitbyte-molecule-type{height:290px}}
+
+/* One-screen BitByte announcement */
+.bitbyte-launch{height:100svh;min-height:620px;display:flex;align-items:center;justify-content:center}
+.bitbyte-launch-inner{width:100%;min-height:100%;padding:clamp(130px,16vh,185px) clamp(22px,4vw,72px) clamp(32px,7vh,72px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.bitbyte-launch-status{font-size:11px;letter-spacing:.23em;font-weight:600;white-space:nowrap}
+.bitbyte-molecule-type{width:100%;height:clamp(220px,39vh,420px);margin:clamp(16px,3vh,38px) 0 0}
+.bitbyte-molecule-fallback{display:block;position:absolute;top:50%;left:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:clamp(65px,14vw,235px);line-height:1;white-space:nowrap;letter-spacing:-.09em}
+.bitbyte-launch .bitbyte-gradient-link{margin-top:clamp(16px,4vh,44px)}
+@media(max-width:650px){.bitbyte-launch{min-height:560px}.bitbyte-launch-inner{padding:125px 16px 42px}.bitbyte-molecule-type{height:clamp(170px,27vh,270px);margin-top:14px}.bitbyte-molecule-fallback{font-size:clamp(46px,13vw,100px)}.bitbyte-launch .bitbyte-gradient-link{width:auto;min-width:220px;margin-top:20px}}
+.bitbyte-waitlist-carousel{padding-top:76px;padding-bottom:100px}.bitbyte-waitlist-carousel .customer-showcase{margin:0;border:0;border-radius:0;background:transparent;padding:0}.bitbyte-waitlist-carousel .customer-showcase-head h2{color:#f0e8ee}.bitbyte-waitlist-carousel .customer-image{background:#fff}.bitbyte-waitlist-carousel .customer-copy{background:#eee7df}
+@media(max-width:650px){.bitbyte-waitlist-carousel{padding-top:54px;padding-bottom:70px}}

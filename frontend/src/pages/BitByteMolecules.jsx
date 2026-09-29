@@ -61,15 +61,15 @@ export default function BitByteMolecules() {
       mask.width = width;
       mask.height = height;
       const ink = mask.getContext('2d', { willReadFrequently: true });
-      const lines = ['BIT', 'BYTE'];
-      const fontSize = Math.min(height * 0.45, width * 0.285);
+      const word = 'BITBYTE';
       ink.fillStyle = '#000';
       ink.textAlign = 'center';
       ink.textBaseline = 'middle';
+      let fontSize = Math.min(height * 0.76, width * 0.23);
       ink.font = `750 ${fontSize}px Manrope, sans-serif`;
-      const maxWidth = width * 0.94;
-      ink.fillText(lines[0], width * 0.5, height * 0.29, maxWidth);
-      ink.fillText(lines[1], width * 0.5, height * 0.73, maxWidth);
+      fontSize *= Math.min(1, width * 0.94 / ink.measureText(word).width);
+      ink.font = `750 ${fontSize}px Manrope, sans-serif`;
+      ink.fillText(word, width * 0.5, height * 0.51);
       const pixels = ink.getImageData(0, 0, width, height).data;
       const step = width < 600 ? 7 : 9;
       const next = [];
@@ -118,7 +118,7 @@ export default function BitByteMolecules() {
   }, []);
 
   return <div className="bitbyte-molecule-type" data-testid="bitbyte-molecule-type">
-    <h1 id="bitbyte-launch-title" className={`bitbyte-molecule-fallback${ready ? ' is-ready' : ''}`} data-testid="products-page-heading"><span>BIT</span><span>BYTE</span></h1>
+    <h1 id="bitbyte-launch-title" className={`bitbyte-molecule-fallback${ready ? ' is-ready' : ''}`} data-testid="products-page-heading">BITBYTE</h1>
     <canvas ref={canvasRef} aria-hidden="true" />
   </div>;
 }
