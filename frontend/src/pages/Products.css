@@ -46,9 +46,11 @@
 body:has(.bitbyte-launch){background:#211827}
 .bitbyte-launch{background:#211827;border-bottom:0}
 .bitbyte-bridge{padding-top:110px;padding-bottom:58px;text-align:center}
-.bitbyte-bridge-content>.small-label{color:#c7a0d0}
+.bitbyte-bridge-content .small-label{color:#c7a0d0}
 .bitbyte-bridge h2{max-width:850px;margin:19px auto 27px;font-family:var(--heading);font-size:clamp(38px,5vw,72px);font-weight:450;letter-spacing:-.06em;line-height:1.08;color:#f4edf3}
 .bitbyte-bridge p{max-width:680px;margin:0 auto 18px;color:#c8b9ca;font-size:clamp(14px,1.4vw,17px);line-height:1.85}
+.bitbyte-reveal-word{display:inline-block;overflow:hidden;vertical-align:bottom}
+.bitbyte-reveal-word>span{display:inline-block}
 .bitbyte-bridge-link{display:inline-flex;align-items:center;gap:11px;margin-top:14px;padding-bottom:6px;border-bottom:1px solid #d7a8e0;color:#f0caef;font-size:14px;font-weight:600;transition:color .2s,gap .3s}
 .bitbyte-bridge-link:hover{color:#fff;gap:17px}
 .bitbyte-waitlist-carousel{padding-top:65px}

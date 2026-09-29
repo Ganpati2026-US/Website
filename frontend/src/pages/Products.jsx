@@ -5,9 +5,28 @@ import { ProductSpotlight, CustomerCarousel } from '../components/bitbyte/Produc
 import { ProductStory } from '../components/bitbyte/ProductStory';
 import { products } from '../data/products';
 import { ArrowUpRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import BitByteMolecules from './BitByteMolecules';
 import './Products.css';
 import NotFound from './NotFound';
+
+const WordReveal = ({ children, as = 'p', id }) => {
+  const reduced = useReducedMotion();
+  const Tag = as === 'h2' ? motion.h2 : motion.p;
+  const words = children.split(' ');
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: reduced ? 0 : 0.025 } },
+  };
+  const word = {
+    hidden: { opacity: reduced ? 1 : 0, y: reduced ? 0 : '105%' },
+    visible: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] } },
+  };
+
+  return <Tag id={id} className="bitbyte-scroll-copy" aria-label={children} variants={container} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.45 }}>
+    {words.map((item, index) => <span className="bitbyte-reveal-word" aria-hidden="true" key={`${item}-${index}`}><motion.span variants={word}>{item}</motion.span>{index < words.length - 1 ? '\u00a0' : ''}</span>)}
+  </Tag>;
+};
 
 export default function Products() {
   return <>
@@ -19,13 +38,13 @@ export default function Products() {
       </div>
     </section>
     <section className="bitbyte-bridge container" aria-labelledby="bitbyte-bridge-title">
-      <Reveal className="bitbyte-bridge-content">
-        <span className="small-label">BUILT FOR THE LONG RUN</span>
-        <h2 id="bitbyte-bridge-title">Software your restaurant can grow with.</h2>
-        <p>We’re a team of young builders shaping BitByte around the way restaurants really work. Our ambition is to make it a product you’ll want to keep using as your needs change, with clear choices instead of confusing bundles.</p>
-        <p>Want to try it? Tell us about your restaurant and we’ll get in touch when an early preview is ready.</p>
-        <Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link>
-      </Reveal>
+      <div className="bitbyte-bridge-content">
+        <Reveal><span className="small-label">BUILT FOR THE LONG RUN</span></Reveal>
+        <WordReveal as="h2" id="bitbyte-bridge-title">Software your restaurant can grow with.</WordReveal>
+        <WordReveal>We’re a team of young builders shaping BitByte around the way restaurants really work. Our ambition is to make it a product you’ll want to keep using as your needs change, with clear choices instead of confusing bundles.</WordReveal>
+        <WordReveal>Want to try it? Tell us about your restaurant and we’ll get in touch when an early preview is ready.</WordReveal>
+        <Reveal delay={0.12}><Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link></Reveal>
+      </div>
     </section>
     <section className="bitbyte-waitlist-carousel container" aria-label="BitByte waitlist"><CustomerCarousel waitlist /></section>
   </>;

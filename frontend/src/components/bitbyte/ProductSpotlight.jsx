@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, QrCode, Utensils, Check } from 'lucide-react';
 import { products } from '../../data/products';
@@ -40,11 +40,11 @@ export const CustomerCarousel = ({ waitlist = false }) => {
       <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button>{!waitlist && <span>0{active + 1} / 0{customers.length}</span>}<button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
     </div>
     {waitlist ? <div ref={ref} className="bitbyte-early-names" aria-label="Restaurants on the early list">
-      {customers.map((customer, index) => <button className={`bitbyte-early-name${active === index ? ' is-active' : ''}`} key={customer.name} onClick={() => setActive(index)} aria-pressed={active === index}>
+      {customers.map((customer, index) => <motion.button className={`bitbyte-early-name${active === index ? ' is-active' : ''}`} key={customer.name} onClick={() => setActive(index)} aria-pressed={active === index} initial={reduced ? false : { opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.7 }} transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
         <span className="bitbyte-early-number">0{index + 1}</span>
         <span className="bitbyte-early-title">{customer.name}</span>
         <span className="bitbyte-early-location">{customer.location}</span>
-      </button>)}
+      </motion.button>)}
     </div> : <div ref={ref} className="customer-viewport">
       <div className="customer-track" style={{ transform: `translateX(-${active * 100}%)` }}>
         {customers.map(customer => <article className="customer-card" key={customer.name}>
