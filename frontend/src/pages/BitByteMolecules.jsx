@@ -79,7 +79,7 @@ export default function BitByteMolecules() {
           const variation = Math.sin(x * 0.27 + y * 0.13);
           next.push({ homeX: x, homeY: y, x, y, vx: 0, vy: 0,
             radius: variation > 0.65 ? 2.15 : variation < -0.65 ? 1.25 : 1.7,
-            color: variation > 0.72 ? '#ab72c2' : variation < -0.72 ? '#cfb5d5' : '#eee2ea' });
+            color: '#fff' });
         }
       }
       particles = next;

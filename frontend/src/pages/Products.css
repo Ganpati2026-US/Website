@@ -40,3 +40,4 @@
 @media(max-width:650px){.bitbyte-launch{min-height:560px}.bitbyte-launch-inner{padding:125px 16px 42px}.bitbyte-molecule-type{height:clamp(170px,27vh,270px);margin-top:14px}.bitbyte-molecule-fallback{font-size:clamp(46px,13vw,100px)}.bitbyte-launch .bitbyte-gradient-link{width:auto;min-width:220px;margin-top:20px}}
 .bitbyte-waitlist-carousel{padding-top:76px;padding-bottom:100px}.bitbyte-waitlist-carousel .customer-showcase{margin:0;border:0;border-radius:0;background:transparent;padding:0}.bitbyte-waitlist-carousel .customer-showcase-head h2{color:#f0e8ee}.bitbyte-waitlist-carousel .customer-image{background:#fff}.bitbyte-waitlist-carousel .customer-copy{background:#eee7df}
 @media(max-width:650px){.bitbyte-waitlist-carousel{padding-top:54px;padding-bottom:70px}}
+.bitbyte-molecule-fallback{color:#fff}

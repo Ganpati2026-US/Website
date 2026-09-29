@@ -37,7 +37,7 @@ export const CustomerCarousel = ({ waitlist = false }) => {
   return <Reveal className="customer-showcase" data-testid="customer-carousel">
     <div className="customer-showcase-head">
       <div><Eyebrow id="customers-label">{waitlist ? 'THE EARLY LIST' : 'OUR CUSTOMERS'}</Eyebrow><h2>{waitlist ? 'Already at the table.' : <>Trusted at the tables<br />that matter.</>}</h2></div>
-      <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button><span>0{active + 1} / 0{customers.length}</span><button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
+      <div className="customer-controls"><button onClick={() => move(-1)} aria-label="Previous customer"><ArrowLeft /></button>{!waitlist && <span>0{active + 1} / 0{customers.length}</span>}<button onClick={() => move(1)} aria-label="Next customer"><ArrowRight /></button></div>
     </div>
     <div ref={ref} className="customer-viewport">
       <div className="customer-track" style={{ transform: `translateX(-${active * 100}%)` }}>
