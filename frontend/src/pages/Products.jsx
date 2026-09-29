@@ -1,14 +1,45 @@
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { SEO } from '../components/Layout';
 import { PageHero, Eyebrow, Action, Reveal, FinalCTA } from '../components/Primitives';
 import { ProductSpotlight, CustomerCarousel } from '../components/bitbyte/ProductSpotlight';
 import { ProductStory } from '../components/bitbyte/ProductStory';
 import { products } from '../data/products';
-import { ArrowUpRight } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, ChefHat, CookingPot, UtensilsCrossed } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import BitByteMolecules from './BitByteMolecules';
 import './Products.css';
 import NotFound from './NotFound';
+
+const BitByteLaunchView = () => {
+  const reduced = useReducedMotion();
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const timer = window.setTimeout(() => setVisible(false), reduced ? 650 : 2800);
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [reduced]);
+
+  useEffect(() => {
+    if (!visible) document.body.style.overflow = '';
+  }, [visible]);
+
+  const symbols = [ChefHat, CookingPot, UtensilsCrossed];
+  return <AnimatePresence>{visible && <motion.div className="bitbyte-intro" role="status" aria-label="BitByte is cooking" initial={{ opacity: 1 }} exit={{ opacity: 0, y: '-5%' }} transition={{ duration: reduced ? 0.15 : 0.75, ease: [0.76, 0, 0.24, 1] }}>
+    <motion.div className="bitbyte-intro-inner" initial={reduced ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: reduced ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}>
+      <div className="bitbyte-intro-symbols" aria-hidden="true">
+        {symbols.map((Icon, index) => <motion.span key={index} animate={reduced ? {} : { opacity: [0.3, 1, 0.3], scale: [0.88, 1.12, 0.88], y: [0, -5, 0] }} transition={{ duration: 1.35, delay: index * 0.22, repeat: Infinity, ease: 'easeInOut' }}><Icon /></motion.span>)}
+      </div>
+      <span className="bitbyte-intro-name">BITBYTE</span>
+      <span className="bitbyte-intro-note">THE KITCHEN IS WARMING UP</span>
+    </motion.div>
+  </motion.div>}</AnimatePresence>;
+};
 
 const WordReveal = ({ children, as = 'p', id }) => {
   const reduced = useReducedMotion();
@@ -31,6 +62,7 @@ const WordReveal = ({ children, as = 'p', id }) => {
 export default function Products() {
   return <>
     <SEO title="BitByte — Cooking" description="BitByte Restro is cooking. A more thoughtful digital dining experience is in the making." />
+    <BitByteLaunchView />
     <section className="bitbyte-launch" aria-labelledby="bitbyte-launch-title">
       <div className="bitbyte-launch-inner">
         <span className="bitbyte-launch-status"><i /> COOKING</span>

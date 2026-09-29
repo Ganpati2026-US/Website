@@ -44,6 +44,13 @@
 
 /* One continuous BitByte canvas */
 body:has(.bitbyte-launch){background:#211827}
+.bitbyte-intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden;background-color:#211827;background-image:radial-gradient(#dec9df26 .6px,transparent .6px);background-size:18px 18px;color:#fff}
+.bitbyte-intro-inner{display:flex;flex-direction:column;align-items:center;padding:30px;text-align:center}
+.bitbyte-intro-symbols{display:flex;align-items:center;gap:clamp(18px,3vw,38px);height:90px;margin-bottom:32px}
+.bitbyte-intro-symbols span{display:grid;place-items:center;width:clamp(56px,7vw,82px);height:clamp(56px,7vw,82px);border:1px solid #ead9ed30;border-radius:50%;background:#fff08;color:#f6eaf7;box-shadow:0 0 40px #c47ad51c}
+.bitbyte-intro-symbols svg{width:clamp(25px,3vw,36px);height:clamp(25px,3vw,36px);stroke-width:1.35}
+.bitbyte-intro-name{font-family:var(--heading);font-size:clamp(54px,10vw,138px);font-weight:650;line-height:.9;letter-spacing:-.08em}
+.bitbyte-intro-note{margin-top:24px;color:#cdb8cf;font-size:10px;font-weight:600;letter-spacing:.24em}
 .bitbyte-launch{background:#211827;border-bottom:0}
 .bitbyte-bridge{padding-top:110px;padding-bottom:58px;text-align:center}
 .bitbyte-bridge-content .small-label{color:#c7a0d0}
@@ -72,7 +79,7 @@ body:has(.bitbyte-launch){background:#211827}
 @keyframes bitbyte-cooking-pulse{0%,100%{transform:scale(.8);opacity:.55}50%{transform:scale(1.35);opacity:1;box-shadow:0 0 18px #e1b1ef}}
 @keyframes bitbyte-list-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 body:has(.bitbyte-launch) .footer{border-top:0}
-@media(max-width:650px){.bitbyte-bridge{padding-top:70px;padding-bottom:20px;text-align:left}.bitbyte-bridge h2{font-size:42px}.bitbyte-waitlist-carousel{padding-top:48px}.bitbyte-waitlist-carousel .customer-showcase-head{margin-bottom:28px}.bitbyte-early-name{grid-template-columns:28px minmax(0,1fr);gap:8px 14px;padding:22px 0}.bitbyte-early-name:hover,.bitbyte-early-name.is-active{padding-left:6px}.bitbyte-early-title{font-size:clamp(23px,6vw,34px)}.bitbyte-early-location{grid-column:2;text-align:left}}
+@media(max-width:650px){.bitbyte-intro-symbols{gap:13px}.bitbyte-intro-note{font-size:8px;letter-spacing:.18em}.bitbyte-bridge{padding-top:70px;padding-bottom:20px;text-align:left}.bitbyte-bridge h2{font-size:42px}.bitbyte-waitlist-carousel{padding-top:48px}.bitbyte-waitlist-carousel .customer-showcase-head{margin-bottom:28px}.bitbyte-early-name{grid-template-columns:28px minmax(0,1fr);gap:8px 14px;padding:22px 0}.bitbyte-early-name:hover,.bitbyte-early-name.is-active{padding-left:6px}.bitbyte-early-title{font-size:clamp(23px,6vw,34px)}.bitbyte-early-location{grid-column:2;text-align:left}}
 body:has(.bitbyte-launch){background-color:#211827;background-image:radial-gradient(#dec9df26 .6px,transparent .6px);background-size:18px 18px;background-attachment:fixed}
 .bitbyte-launch{background:transparent}
 .bitbyte-launch::before{display:none}
