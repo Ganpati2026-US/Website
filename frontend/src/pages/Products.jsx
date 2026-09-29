@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { SEO } from '../components/Layout';
 import { PageHero, Eyebrow, Action, Reveal, FinalCTA } from '../components/Primitives';
 import { ProductSpotlight, CustomerCarousel } from '../components/bitbyte/ProductSpotlight';
@@ -16,7 +16,6 @@ export default function Products() {
       <div className="bitbyte-launch-inner">
         <span className="bitbyte-launch-status"><i /> COMING SOON</span>
         <BitByteMolecules />
-        <Link className="bitbyte-gradient-link" to="/contact?interest=BitByte%20Restro" data-testid="bitbyte-early-interest">Ask us about BitByte <ArrowUpRight size={21} /></Link>
       </div>
     </section>
     <section className="bitbyte-waitlist-carousel container" aria-label="BitByte waitlist"><CustomerCarousel waitlist /></section>
