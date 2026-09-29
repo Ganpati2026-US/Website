@@ -20,7 +20,7 @@ export const products: Product[] = [
       { title: 'Place an order', description: 'Send your choices from the digital menu.' },
       { title: 'Restaurant dashboard', description: 'A dedicated login for the restaurant experience.' },
     ],
-    websiteUrl: '', status: 'active', featured: true,
+    websiteUrl: '', status: 'coming-soon', featured: true,
     content: {
       overview: 'Less waiting. More dining. A focused product connecting the people at the table with the restaurant behind the experience.',
       audience: 'Built for modern restaurants.',
