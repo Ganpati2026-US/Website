@@ -46,24 +46,32 @@
 body:has(.bitbyte-launch){background:#211827}
 .bitbyte-launch{background:#211827;border-bottom:0}
 .bitbyte-bridge{padding-top:110px;padding-bottom:58px;text-align:center}
-.bitbyte-bridge>.small-label{color:#c7a0d0}
+.bitbyte-bridge-content>.small-label{color:#c7a0d0}
 .bitbyte-bridge h2{max-width:850px;margin:19px auto 27px;font-family:var(--heading);font-size:clamp(38px,5vw,72px);font-weight:450;letter-spacing:-.06em;line-height:1.08;color:#f4edf3}
 .bitbyte-bridge p{max-width:680px;margin:0 auto 18px;color:#c8b9ca;font-size:clamp(14px,1.4vw,17px);line-height:1.85}
-.bitbyte-bridge-link{display:inline-flex;align-items:center;gap:11px;margin-top:14px;padding-bottom:6px;border-bottom:1px solid #d7a8e0;color:#f0caef;font-size:14px;font-weight:600;transition:color .2s}
-.bitbyte-bridge-link:hover{color:#fff}
+.bitbyte-bridge-link{display:inline-flex;align-items:center;gap:11px;margin-top:14px;padding-bottom:6px;border-bottom:1px solid #d7a8e0;color:#f0caef;font-size:14px;font-weight:600;transition:color .2s,gap .3s}
+.bitbyte-bridge-link:hover{color:#fff;gap:17px}
 .bitbyte-waitlist-carousel{padding-top:65px}
 .bitbyte-waitlist-carousel .customer-showcase{box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .bitbyte-waitlist-carousel .customer-showcase-head{margin-bottom:45px}
 .bitbyte-waitlist-carousel .customer-showcase-head .eyebrow{color:#c7a0d0}
 .bitbyte-early-names{border-top:1px solid #e0c7e038}
-.bitbyte-early-name{display:grid;grid-template-columns:50px minmax(0,1fr) minmax(130px,20%);align-items:center;gap:28px;width:100%;padding:26px 3px;border:0;border-bottom:1px solid #e0c7e038;background:transparent;color:#d3c3d3;text-align:left;cursor:pointer;transition:color .25s,padding-left .25s}
-.bitbyte-early-name:hover,.bitbyte-early-name.is-active{color:#fff;padding-left:14px}
+.bitbyte-early-name{position:relative;display:grid;grid-template-columns:50px minmax(0,1fr) minmax(130px,20%);align-items:center;gap:28px;width:100%;padding:26px 3px;border:0;border-bottom:1px solid #e0c7e038;background:transparent;color:#d3c3d3;text-align:left;cursor:pointer;overflow:hidden;transition:color .4s,padding-left .4s,background-color .4s}
+.bitbyte-early-name::after{content:'';position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:linear-gradient(90deg,#fff,#c888e2 60%,transparent);transform:scaleX(0);transform-origin:left}
+.bitbyte-early-name:hover,.bitbyte-early-name.is-active{color:#fff;padding-left:14px;background:#ffffff06}
+.bitbyte-early-name.is-active::after{animation:bitbyte-list-progress 5s linear both}
 .bitbyte-early-name:focus-visible{outline:2px solid #e6b6ef;outline-offset:-2px}
 .bitbyte-early-number,.bitbyte-early-location{font-size:11px;letter-spacing:.08em;color:#bda6c0}
 .bitbyte-early-title{font-family:var(--heading);font-size:clamp(24px,3.3vw,46px);line-height:1.13;letter-spacing:-.045em}
 .bitbyte-early-location{text-align:right}
+.bitbyte-launch-status{animation:bitbyte-status-arrive .8s .15s cubic-bezier(.22,1,.36,1) both}
+.bitbyte-launch-status i{animation:bitbyte-cooking-pulse 1.8s ease-in-out infinite}
+@keyframes bitbyte-status-arrive{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bitbyte-cooking-pulse{0%,100%{transform:scale(.8);opacity:.55}50%{transform:scale(1.35);opacity:1;box-shadow:0 0 18px #e1b1ef}}
+@keyframes bitbyte-list-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 body:has(.bitbyte-launch) .footer{border-top:0}
 @media(max-width:650px){.bitbyte-bridge{padding-top:70px;padding-bottom:20px;text-align:left}.bitbyte-bridge h2{font-size:42px}.bitbyte-waitlist-carousel{padding-top:48px}.bitbyte-waitlist-carousel .customer-showcase-head{margin-bottom:28px}.bitbyte-early-name{grid-template-columns:28px minmax(0,1fr);gap:8px 14px;padding:22px 0}.bitbyte-early-name:hover,.bitbyte-early-name.is-active{padding-left:6px}.bitbyte-early-title{font-size:clamp(23px,6vw,34px)}.bitbyte-early-location{grid-column:2;text-align:left}}
 body:has(.bitbyte-launch){background-color:#211827;background-image:radial-gradient(#dec9df26 .6px,transparent .6px);background-size:18px 18px;background-attachment:fixed}
 .bitbyte-launch{background:transparent}
 .bitbyte-launch::before{display:none}
+@media(prefers-reduced-motion:reduce){.bitbyte-launch-status,.bitbyte-launch-status i,.bitbyte-early-name.is-active::after{animation:none}.bitbyte-bridge-link,.bitbyte-early-name{transition:none}}

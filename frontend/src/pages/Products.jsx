@@ -19,11 +19,13 @@ export default function Products() {
       </div>
     </section>
     <section className="bitbyte-bridge container" aria-labelledby="bitbyte-bridge-title">
-      <span className="small-label">BUILT FOR THE LONG RUN</span>
-      <h2 id="bitbyte-bridge-title">Software your restaurant can grow with.</h2>
-      <p>We’re a team of young builders shaping BitByte around the way restaurants really work. Our ambition is to make it a product you’ll want to keep using as your needs change, with clear choices instead of confusing bundles.</p>
-      <p>Want to try it? Tell us about your restaurant and we’ll get in touch when an early preview is ready.</p>
-      <Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link>
+      <Reveal className="bitbyte-bridge-content">
+        <span className="small-label">BUILT FOR THE LONG RUN</span>
+        <h2 id="bitbyte-bridge-title">Software your restaurant can grow with.</h2>
+        <p>We’re a team of young builders shaping BitByte around the way restaurants really work. Our ambition is to make it a product you’ll want to keep using as your needs change, with clear choices instead of confusing bundles.</p>
+        <p>Want to try it? Tell us about your restaurant and we’ll get in touch when an early preview is ready.</p>
+        <Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link>
+      </Reveal>
     </section>
     <section className="bitbyte-waitlist-carousel container" aria-label="BitByte waitlist"><CustomerCarousel waitlist /></section>
   </>;
