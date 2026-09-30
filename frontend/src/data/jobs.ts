@@ -9,6 +9,7 @@ export const departments: Job['department'][] = ['Tech', 'Business', 'Creative']
 const location = 'India · Remote-friendly';
 
 export const jobs: Job[] = [
+  /*
   {
     id: 'web-developer-intern', role: 'Web Developer Intern', department: 'Tech', location, type: 'Internship', isOpen: true,
     description: 'Build fast, accessible interfaces for our products and partner projects.',
@@ -18,6 +19,7 @@ export const jobs: Job[] = [
     learn: ['Modern React, animation and performance practices used on production sites.', 'How a product team moves from idea to shipped feature.', 'Design systems, accessibility and code review culture.', 'Working directly with founders on real business problems.'],
     lookingFor: ['Solid HTML/CSS/JavaScript and some React experience (projects count).', 'An eye for detail and typography.', 'Curiosity about how products are built end to end.'],
   },
+  */
   {
     id: 'business-analyst-intern', role: 'Business Analyst Intern', department: 'Tech', location, type: 'Internship', isOpen: true,
     description: 'Turn product questions into clear requirements, flows and decisions.',
