@@ -93,3 +93,4 @@ credentials.json
 
 # Local Cloudflare preview state
 .wrangler/
+.gitconfig

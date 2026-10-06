@@ -31,6 +31,12 @@ function makeDevServerV5Compatible(devServerConfig) {
     ...compatibleConfig.headers,
     "Cross-Origin-Resource-Policy": "same-origin",
   };
+  if (Array.isArray(compatibleConfig.allowedHosts)) {
+    compatibleConfig.allowedHosts = compatibleConfig.allowedHosts.filter(Boolean);
+    if (compatibleConfig.allowedHosts.length === 0) {
+      compatibleConfig.allowedHosts = "auto";
+    }
+  }
 
   if (onBeforeSetupMiddleware || setupMiddlewares) {
     compatibleConfig.setupMiddlewares = (middlewares, devServer) => {

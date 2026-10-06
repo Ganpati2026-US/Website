@@ -2,6 +2,8 @@
 
 React (CRA + craco) frontend with framer-motion and Lenis. Backend: FastAPI + MongoDB (`/app/backend`).
 
+The BitByte page uses [ORB by Jacek Janiczak](https://community.spline.design/file/7ffaf321-83b9-473b-a02a-674c1417ff31), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
 ## Quick website editing (no coding needed)
 
 All copy, links and lists live in plain data files. Edit the text between the quotes, save, and the site updates.

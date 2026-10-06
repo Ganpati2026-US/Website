@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { SEO } from '../components/Layout';
 import { PageHero, Eyebrow, Action, Reveal, FinalCTA } from '../components/Primitives';
@@ -6,7 +6,7 @@ import { ProductSpotlight, CustomerCarousel } from '../components/bitbyte/Produc
 import { ProductStory } from '../components/bitbyte/ProductStory';
 import { products } from '../data/products';
 import { ArrowUpRight, ChefHat, CookingPot, UtensilsCrossed } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import BitByteMolecules from './BitByteMolecules';
 import './Products.css';
 import NotFound from './NotFound';
@@ -41,44 +41,92 @@ const BitByteLaunchView = () => {
   </motion.div>}</AnimatePresence>;
 };
 
-const WordReveal = ({ children, as = 'p', id }) => {
-  const reduced = useReducedMotion();
-  const Tag = as === 'h2' ? motion.h2 : motion.p;
-  const words = children.split(' ');
-  const container = {
-    hidden: {},
-    visible: { transition: { staggerChildren: reduced ? 0 : 0.025 } },
-  };
-  const word = {
-    hidden: { opacity: reduced ? 1 : 0, y: reduced ? 0 : '105%' },
-    visible: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] } },
-  };
+const bitbyteStages = ['COOKING', 'GARNISHING', 'SERVING'];
 
-  return <Tag id={id} className="bitbyte-scroll-copy" aria-label={children} variants={container} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.45 }}>
-    {words.map((item, index) => <span className="bitbyte-reveal-word" aria-hidden="true" key={`${item}-${index}`}><motion.span variants={word}>{item}</motion.span>{index < words.length - 1 ? '\u00a0' : ''}</span>)}
-  </Tag>;
+const BitByteStatus = () => {
+  const reduced = useReducedMotion();
+  const [stage, setStage] = useState(0);
+
+  useEffect(() => {
+    if (reduced) return undefined;
+    const timer = window.setInterval(() => setStage(current => (current + 1) % bitbyteStages.length), 5000);
+    return () => window.clearInterval(timer);
+  }, [reduced]);
+
+  return <span className="bitbyte-launch-status">
+    <i aria-hidden="true" />
+    <span className="sr-only">BitByte is coming soon</span>
+    <span className="bitbyte-status-word" aria-hidden="true">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span key={bitbyteStages[stage]} initial={reduced ? false : { opacity: 0, y: 10, filter: 'blur(4px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} exit={reduced ? undefined : { opacity: 0, y: -10, filter: 'blur(4px)' }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
+          {bitbyteStages[stage]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  </span>;
+};
+
+const ScrollLine = ({ children, progress, index, total }) => {
+  const reduced = useReducedMotion();
+  const start = index / total;
+  const end = Math.min(1, start + 1 / total);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const y = useTransform(progress, [start, end], [24, 0]);
+
+  return <motion.span className="bitbyte-scroll-line" style={reduced ? undefined : { opacity, y }}>{children}{' '}</motion.span>;
+};
+
+const BitByteBridge = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 90%', 'end 80%'] });
+  const total = 10;
+  return <section ref={ref} className="bitbyte-bridge container" aria-labelledby="bitbyte-bridge-title">
+    <div className="bitbyte-bridge-content">
+      <span className="small-label">BUILT FOR THE LONG RUN</span>
+      <h2 id="bitbyte-bridge-title">
+        <ScrollLine progress={scrollYProgress} index={0} total={total}>Software your restaurant</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={1} total={total}>can grow with.</ScrollLine>
+      </h2>
+      <p>
+        <ScrollLine progress={scrollYProgress} index={2} total={total}>We’re a team of young builders shaping BitByte</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={3} total={total}>around the way restaurants really work.</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={4} total={total}>Our ambition is to make it a product you’ll want</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={5} total={total}>to keep using as your needs change,</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={6} total={total}>with clear choices instead of confusing bundles.</ScrollLine>
+      </p>
+      <p>
+        <ScrollLine progress={scrollYProgress} index={7} total={total}>Want to try it? Tell us about your restaurant</ScrollLine>
+        <ScrollLine progress={scrollYProgress} index={8} total={total}>and we’ll get in touch when an early preview is ready.</ScrollLine>
+      </p>
+      <motion.div className="bitbyte-bridge-cta">
+        <ScrollLine progress={scrollYProgress} index={9} total={total}><Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link></ScrollLine>
+      </motion.div>
+    </div>
+  </section>;
 };
 
 export default function Products() {
   return <>
     <SEO title="BitByte — Cooking" description="BitByte Restro is cooking. A more thoughtful digital dining experience is in the making." />
     <BitByteLaunchView />
+    <div className="bitbyte-page">
+      <div className="bitbyte-spline-background" aria-hidden="true">
+        <iframe
+          src="https://my.spline.design/orb-0MavLTTXsamTC9VW8nJPkCe2/"
+          title="Animated purple orb background"
+          loading="lazy"
+          tabIndex="-1"
+        />
+      </div>
     <section className="bitbyte-launch" aria-labelledby="bitbyte-launch-title">
       <div className="bitbyte-launch-inner">
-        <span className="bitbyte-launch-status"><i /> COOKING</span>
+        <BitByteStatus />
         <BitByteMolecules />
       </div>
     </section>
-    <section className="bitbyte-bridge container" aria-labelledby="bitbyte-bridge-title">
-      <div className="bitbyte-bridge-content">
-        <Reveal><span className="small-label">BUILT FOR THE LONG RUN</span></Reveal>
-        <WordReveal as="h2" id="bitbyte-bridge-title">Software your restaurant can grow with.</WordReveal>
-        <WordReveal>We’re a team of young builders shaping BitByte around the way restaurants really work. Our ambition is to make it a product you’ll want to keep using as your needs change, with clear choices instead of confusing bundles.</WordReveal>
-        <WordReveal>Want to try it? Tell us about your restaurant and we’ll get in touch when an early preview is ready.</WordReveal>
-        <Reveal delay={0.12}><Link to="/contact?interest=BitByte%20Restro" className="bitbyte-bridge-link">Request an early look <ArrowUpRight size={17} /></Link></Reveal>
-      </div>
-    </section>
+    <BitByteBridge />
     <section className="bitbyte-waitlist-carousel container" aria-label="BitByte waitlist"><CustomerCarousel waitlist /></section>
+    </div>
   </>;
 }
 
