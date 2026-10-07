@@ -103,3 +103,4 @@ Keyboard navigation, visible focus, skip navigation, labelled forms, enquiry err
 2. Email notifications and a private enquiry inbox.
 3. OpenAI project-brief assistance — explicitly deferred until after the website, as requested.
 >>>>>>> a74d1a2 (Launch Appetiser India website)
+# Trimurtinagarclient1
